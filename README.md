@@ -57,22 +57,24 @@ docker run -d -p 3026:8080 \
   --name mindlx-webui \
   --restart always \
   mindlx-webui:latest
+```
 
-使用 pip 安装
-
+### 使用 pip 安装
+```bash
 # 克隆仓库后本地安装
 git clone https://github.com/Mindlx/mlx-webui.git
 cd mlx-webui
 pip install -e .
 open-webui serve
+```
 
-📦 环境变量
+### 📦 环境变量
 变量	默认值	说明
 MINDLX_WEBUI_PORT	3026	Web 服务端口
 OLLAMA_BASE_URL	http://ollama:11434	Ollama 服务地址
 WEBUI_SECRET_KEY	(随机生成)	会话加密密钥
 
-🗂️ 项目结构
+### 🗂️ 项目结构
 mlx-webui/
 ├── backend/          # 后端 Python 代码
 ├── src/              # 前端 Svelte 代码
@@ -81,24 +83,23 @@ mlx-webui/
 ├── Dockerfile        # Docker 镜像构建文件
 └── README.md         # 项目说明
 
-🤝 贡献指南
+### 🤝 贡献指南
 欢迎提交 Issue 和 Pull Request！
+1. Fork 本仓库
+2. 创建你的特性分支 (git checkout -b feature/amazing)
+3. 提交你的修改 (git commit -m 'Add some amazing feature')
+4. 推送到分支 (git push origin feature/amazing)
+5. 打开 Pull Request
 
-    Fork 本仓库
-    创建你的特性分支 (git checkout -b feature/amazing)
-    提交你的修改 (git commit -m 'Add some amazing feature')
-    推送到分支 (git push origin feature/amazing)
-    打开 Pull Request
-
-📄 许可证
+### 📄 许可证
 本项目基于 Apache 2.0 许可证开源，详见 LICENSE 文件。
 
-🙏 致谢
-    感谢 Open WebUI 团队提供的优秀基础项目
-    感谢所有贡献者的支持
+### 🙏 致谢
+- 感谢 Open WebUI 团队提供的优秀基础项目
+-  感谢所有贡献者的支持
 
-📞 联系方式
-    问题反馈：GitHub Issues
-    讨论交流：Discord 社区
+### 📞 联系方式
+- 问题反馈：GitHub Issues
+- 讨论交流：Discord 社区
 ---
 如果这个项目对你有帮助，请给个 Star ⭐ 支持一下！
