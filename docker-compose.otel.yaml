@@ -9,14 +9,15 @@ services:
     restart: unless-stopped
 
 
-  open-webui:
+  mindlx-webui:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
-    container_name: open-webui
+    # image: ghcr.io/open-webui/mindlx-webui:${WEBUI_DOCKER_TAG-main}
+    build: .
+    container_name: mindlx-webui
     volumes:
-      - open-webui:/app/backend/data
+      - mindlx-webui:/app/backend/data
     depends_on:
       - grafana
     ports:
@@ -26,10 +27,10 @@ services:
       - ENABLE_OTEL_METRICS=true
       - OTEL_EXPORTER_OTLP_INSECURE=true # Use insecure connection for OTLP, remove in production
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://grafana:4317
-      - OTEL_SERVICE_NAME=open-webui
+      - OTEL_SERVICE_NAME=mindlx-webui
     extra_hosts:
       - host.docker.internal:host-gateway
     restart: unless-stopped
 
 volumes:
-  open-webui: {}
+  mindlx-webui: {}
