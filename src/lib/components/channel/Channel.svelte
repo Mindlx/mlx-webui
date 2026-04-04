@@ -288,10 +288,10 @@
 					} else {
 						return e.name;
 					}
-				}, '')} • Open WebUI</title
+				}, '')} • MindLynx Agent</title
 		>
 	{:else}
-		<title>#{channel?.name ?? 'Channel'} • Open WebUI</title>
+		<title>#{channel?.name ?? 'Channel'} • MindLynx Agent</title>
 	{/if}
 </svelte:head>
 

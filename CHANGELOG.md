@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 🔒 **Terminal server connection security.** Terminal server verification and policy saving now proxy through the backend, preventing API key exposure and CORS errors when connecting to in-cluster services. [Commit](https://github.com/open-webui/open-webui/commit/a6413257079a52fa4487eda36543f3955d0fbd53), [Commit](https://github.com/open-webui/open-webui/commit/4567cdc0d9cb7b42b6eba7b676c0ced3f4850d31)
 - 🛠️ **Terminal tools exception handling.** Exceptions in middleware.py due to invalid return values from get_terminal_tools() have been resolved. [Commit](https://github.com/open-webui/open-webui/commit/52a06bd48aff34fb2211aac2879f0cd028129267)
-- 📦 **Missing beautifulsoup4 dependency.** Users can now start Open WebUI using uvx without encountering the "bs4 module missing" error. [Commit](https://github.com/open-webui/open-webui/commit/1994d65306bbcc7406584e1bfef82f5d353fc91c)
+- 📦 **Missing beautifulsoup4 dependency.** Users can now start MindLynx Agent using uvx without encountering the "bs4 module missing" error. [Commit](https://github.com/open-webui/open-webui/commit/1994d65306bbcc7406584e1bfef82f5d353fc91c)
 - 🔌 **API files list error.** The /api/v1/files/ endpoint no longer returns a 500 error, fixing a regression that prevented file listing via the API. [Commit](https://github.com/open-webui/open-webui/commit/11f52921dc21c2dc61c03f12bcdf6f19140a350c)
 - 📜 **License data loading.** License data now loads correctly, displaying the expected color and logo in the interface. [Commit](https://github.com/open-webui/open-webui/commit/16335f866ea4cedf00c4971963622fcc1fe02d82)
 - 👑 **Admin model visibility.** Administrators can now see models even when no access control is configured yet, allowing them to manage all available models. [Commit](https://github.com/open-webui/open-webui/commit/f3f8f9874f55282603c2650b91801640cb3f69cb)
@@ -61,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🍔 **Model bulk actions menu.** Users can now quickly enable, disable, show, or hide multiple models at once using a new hamburger menu on the workspace Models page filter bar, with actions respecting the current search and filter settings. [#22484](https://github.com/open-webui/open-webui/pull/22484)
 - 📂 **Files list pagination.** The files list API now supports pagination, returning paginated results with a total count for easier navigation through large file collections. [Commit](https://github.com/open-webui/open-webui/commit/f9756de693a93e918c037d757afddb7defc847e4)
 - 🖇 **Web fetch content length config.** Administrators can now configure the maximum characters to return from fetched URLs via WEB_FETCH_MAX_CONTENT_LENGTH environment variable or the admin settings page, instead of the previous hardcoded 50K limit. [Commit](https://github.com/open-webui/open-webui/commit/b171b0216b916745420c7caf513093a315ed9560), [#22774](https://github.com/open-webui/open-webui/issues/22774)
-- 🤖 **Ollama Anthropic endpoint support.** The Ollama proxy now supports the Anthropic-compatible /v1/messages endpoint, allowing clients using the Anthropic API format to work through Open WebUI with proper authentication and model access controls. [Commit](https://github.com/open-webui/open-webui/commit/f23296b22d3304e5bfcd19151e5802eec55bd98f), [#22861](https://github.com/open-webui/open-webui/issues/22861)
+- 🤖 **Ollama Anthropic endpoint support.** The Ollama proxy now supports the Anthropic-compatible /v1/messages endpoint, allowing clients using the Anthropic API format to work through MindLynx Agent with proper authentication and model access controls. [Commit](https://github.com/open-webui/open-webui/commit/f23296b22d3304e5bfcd19151e5802eec55bd98f), [#22861](https://github.com/open-webui/open-webui/issues/22861)
 - 📝 **Writing block rendering.** Responses from OpenAI models that include :::writing blocks are now rendered as formatted content in a styled container with a copy button, instead of displaying raw marker text. [#22672](https://github.com/open-webui/open-webui/issues/22672), [Commit](https://github.com/open-webui/open-webui/commit/53b8a1f71bd0cb0a0122175ad5210da492018728)
 - 💡 **Memory deletion confirmation.** Users are now asked to confirm before deleting individual memory entries, with the memory content displayed for review. [#22888](https://github.com/open-webui/open-webui/pull/22888)
 - 📓 **Multi-artifact HTML rendering.** Code blocks with multiple HTML sections now render as separate artifacts instead of merging into one, allowing models to display distinct interactive components. [Commit](https://github.com/open-webui/open-webui/commit/9a6bf78e14a13864e72db87426da4f5996abe716)
@@ -84,7 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔏 **OAuth session persistence.** Users logging in via OAuth or OIDC providers now stay logged in for the configured JWT expiry duration instead of being logged out when closing the browser. [#22809](https://github.com/open-webui/open-webui/pull/22809)
 - 🚪 **OAuth sub claim configuration crash.** Using the OAUTH_SUB_CLAIM environment variable no longer causes crashes during token exchange requests, fixing a missing configuration registration. [#22865](https://github.com/open-webui/open-webui/pull/22865)
 - 🔍 **OAuth discovery header parsing.** The OAuth protected resource discovery now correctly handles both quoted and unquoted values in the WWW-Authenticate header, fixing compatibility with MCP servers that return unquoted metadata. [#22646](https://github.com/open-webui/open-webui/discussions/22646), [Commit](https://github.com/open-webui/open-webui/commit/fe7e002fea7283abcf901e22de5c8a7d86e336ea)
-- 👤 **Admin OAuth group sync.** Admin user group memberships from OAuth and LDAP providers are now properly synced to Open WebUI, fixing a limitation where admin role excluded users from group updates. [#22537](https://github.com/open-webui/open-webui/pull/22537), [Commit](https://github.com/open-webui/open-webui/commit/a1aceb5f879abd130ef83085d98a0d51316a8fc3)
+- 👤 **Admin OAuth group sync.** Admin user group memberships from OAuth and LDAP providers are now properly synced to MindLynx Agent, fixing a limitation where admin role excluded users from group updates. [#22537](https://github.com/open-webui/open-webui/pull/22537), [Commit](https://github.com/open-webui/open-webui/commit/a1aceb5f879abd130ef83085d98a0d51316a8fc3)
 - 🎫 **Password change complexity validation.** Password complexity rules are now properly enforced when users change their password, closing a security gap where new passwords could bypass configured complexity requirements. [Commit](https://github.com/open-webui/open-webui/commit/bd8aa3b6a0b6a2320f41b20a51b9842f39aadb7f)
 - 🔏 **OAuth role enforcement.** OAuth role management now properly denies access when a user's roles don't match any configured OAUTH_ALLOWED_ROLES or OAUTH_ADMIN_ROLES, instead of silently bypassing the restriction. [#13676](https://github.com/open-webui/open-webui/issues/13676), [#15551](https://github.com/open-webui/open-webui/issues/15551), [Commit](https://github.com/open-webui/open-webui/commit/6d7744c21903ec5a9ad951770dea76e9ba19cbcc)
 - 🔑 **Microsoft Entra ID role claim preservation.** Role claims from Microsoft Entra ID tokens are now preserved during OAuth login, fixing ENABLE_OAUTH_ROLE_MANAGEMENT for Microsoft OAuth which was previously ignored because the userinfo endpoint stripped the roles claim. [#20518](https://github.com/open-webui/open-webui/issues/20518), [Commit](https://github.com/open-webui/open-webui/commit/aa2f7fbe5229c3985ce427602069cdeababda481)
@@ -195,7 +195,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔊 **Azure TTS locale extraction.** Fixed Azure text-to-speech using incomplete locale codes in SSML; now correctly uses full locale like "en-US" instead of just "en". [#22443](https://github.com/open-webui/open-webui/pull/22443)
 - 🎤 **Azure speech transcription errors.** Improved Azure AI Speech error handling to display user-friendly messages instead of generic connection errors; empty transcripts, no language identified, and other Azure-specific errors now show clear descriptions. [#20485](https://github.com/open-webui/open-webui/issues/20485)
 - 📊 **Analytics group filtering.** Fixed token usage analytics not being filtered by user group; the query now properly respects group filters like other analytics metrics. [#22167](https://github.com/open-webui/open-webui/pull/22167)
-- 🔍 **Web search favicon fallback.** Fixed web search sources showing broken image icons when favicons couldn't be loaded from external sources; now falls back to the default Open WebUI favicon. [#21897](https://github.com/open-webui/open-webui/pull/21897)
+- 🔍 **Web search favicon fallback.** Fixed web search sources showing broken image icons when favicons couldn't be loaded from external sources; now falls back to the default MindLynx Agent favicon. [#21897](https://github.com/open-webui/open-webui/pull/21897)
 - 🔄 **Custom model fallback.** Fixed custom model fallback not working when the base model is unavailable; the base model ID is now correctly retrieved from model info instead of empty params. [#22456](https://github.com/open-webui/open-webui/issues/22456)
 - 🖼️ **Pending message image display.** Fixed images in queued messages appearing blank; image thumbnails are now properly displayed in the pending message queue. [#22256](https://github.com/open-webui/open-webui/issues/22256)
 - 🛠️ **File metadata sanitization.** Fixed file uploads failing with JSON serialization errors when metadata contained non-serializable objects like callable functions; metadata is now sanitized before database insertion. [#20561](https://github.com/open-webui/open-webui/issues/20561)
@@ -273,7 +273,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🖼️ **Chat overview profile image sizing.** Fixed a bug where profile images in the chat overview could shrink incorrectly in tight spaces. The images now maintain their proper size with the flex-shrink-0 property. [#22261](https://github.com/open-webui/open-webui/pull/22261)
 - 📨 **Queued messages display.** Fixed an issue where queued messages could be cut off or hidden. The queued messages area now scrolls properly when content exceeds the visible area, showing up to 25% of the viewport height. [#22176](https://github.com/open-webui/open-webui/pull/22176)
 - 🖌️ **Image generation in temporary chats.** Generated images now display correctly in temporary chat mode when using builtin image generation tools. Previously, images were not shown because the code was overwriting the image list with a null database response. [#22330](https://github.com/open-webui/open-webui/pull/22330), [#22309](https://github.com/open-webui/open-webui/issues/22309)
-- 🤖 **Ollama model unload fix.** Fixed a bug where unloading a model from Ollama via the Open WebUI proxy failed with a "Field required" error for the prompt field. The proxy now correctly allows omitting the prompt when using keep_alive: 0 to unload models. [#22260](https://github.com/open-webui/open-webui/issues/22260), [Commit](https://github.com/open-webui/open-webui/commit/95b65ff751f91131b633cb128ff2decdd87c4a85)
+- 🤖 **Ollama model unload fix.** Fixed a bug where unloading a model from Ollama via the MindLynx Agent proxy failed with a "Field required" error for the prompt field. The proxy now correctly allows omitting the prompt when using keep_alive: 0 to unload models. [#22260](https://github.com/open-webui/open-webui/issues/22260), [Commit](https://github.com/open-webui/open-webui/commit/95b65ff751f91131b633cb128ff2decdd87c4a85)
 - 🏷️ **Banner type dropdown fix.** Fixed a bug where selecting a banner type required two clicks to register, as the first selection was being swallowed due to DOM structure changes. The dropdown now works correctly on the first click. [#22378](https://github.com/open-webui/open-webui/pull/22378)
 - 📈 **Analytics URL encoding fix.** Fixed a bug where the Analytics page failed to load data for models with slashes in their ID, such as "anthropic/claude-opus-4.6". The frontend now properly URL-encodes forward slashes, allowing model analytics to load correctly. [#22380](https://github.com/open-webui/open-webui/issues/22380), [#22382](https://github.com/open-webui/open-webui/pull/22382)
 - 📋 **Analytics chat list duplicate fix.** Fixed a bug where the Analytics page chat list threw an "each_key_duplicate" Svelte error when chat IDs were duplicated during pagination. The fix adds deterministic ordering to prevent duplicate entries. [#22383](https://github.com/open-webui/open-webui/pull/22383)
@@ -375,7 +375,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔓 **OAuth session token decryption.** OAuth sessions are now properly detached from the database context before token decryption, preventing potential database session conflicts when reading encrypted tokens. [#21794](https://github.com/open-webui/open-webui/pull/21794)
 - 🕐 **Chat timestamp i18n fix.** Chat timestamps in the sidebar now display correctly, fixing an issue where the time ago format (e.g., "5m", "2h", "3d") was not being localized properly due to incorrect variable casing in the translation function. [Commit](https://github.com/open-webui/open-webui/commit/ae28e7d24530eb9f7909b293bcd0f33048a022a9)
 - 🍞 **Model toast notification fix.** Hiding or showing a single model now displays only one toast notification instead of two, removing the redundant generic "model updated" message when a specific action toast is shown. [#22079](https://github.com/open-webui/open-webui/pull/22079)
-- 📡 **Offline mode embedding model fix.** Open WebUI no longer attempts to download embedding models when in offline mode, fixing error logs that occurred when trying to fetch models that weren't cached locally. [#22106](https://github.com/open-webui/open-webui/pull/22106), [#21405](https://github.com/open-webui/open-webui/issues/21405)
+- 📡 **Offline mode embedding model fix.** MindLynx Agent no longer attempts to download embedding models when in offline mode, fixing error logs that occurred when trying to fetch models that weren't cached locally. [#22106](https://github.com/open-webui/open-webui/pull/22106), [#21405](https://github.com/open-webui/open-webui/issues/21405)
 
 ## [0.8.5] - 2026-02-23
 
@@ -401,7 +401,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🗑️ **Memory deletion.** Agents can now delete specific memories that are no longer relevant, duplicated, or incorrect, giving better control over stored memory content. [Commit](https://github.com/open-webui/open-webui/commit/094ed0b48cb86b9b6aff3c93f522072d11230761)
 - 📋 **Memory listing.** Agents can now list all stored memories, enabling them to identify which memories to manage or delete based on the complete memory inventory. [Commit](https://github.com/open-webui/open-webui/commit/094ed0b48cb86b9b6aff3c93f522072d11230761)
 - 📦 **Auto pip install toggle.** Administrators can now disable automatic pip package installation from function frontmatter requirements using the ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS environment variable, providing more control over function dependency management. [Commit](https://github.com/open-webui/open-webui/commit/8bfab327ec5f635f9fe93c26efd198712ff7116d)
-- 🔗 **Anthropic Messages API proxy.** A new API endpoint now supports the Anthropic Messages API format, allowing tools like Claude Code to authenticate through Open WebUI and access configured models. Tool calls are now properly supported in streaming responses with correct multi-block indexing, and error status from tools is propagated correctly. The endpoint converts requests to OpenAI format internally, routes them through the existing chat pipeline, and returns responses in Anthropic format. [#21390](https://github.com/open-webui/open-webui/discussions/21390), [Commit](https://github.com/open-webui/open-webui/commit/91a0301c9e22e93295a7c471d83592a802560795), [Commit](https://github.com/open-webui/open-webui/commit/a9312d25373d3aa161788598f87180b8db11c5b6)
+- 🔗 **Anthropic Messages API proxy.** A new API endpoint now supports the Anthropic Messages API format, allowing tools like Claude Code to authenticate through MindLynx Agent and access configured models. Tool calls are now properly supported in streaming responses with correct multi-block indexing, and error status from tools is propagated correctly. The endpoint converts requests to OpenAI format internally, routes them through the existing chat pipeline, and returns responses in Anthropic format. [#21390](https://github.com/open-webui/open-webui/discussions/21390), [Commit](https://github.com/open-webui/open-webui/commit/91a0301c9e22e93295a7c471d83592a802560795), [Commit](https://github.com/open-webui/open-webui/commit/a9312d25373d3aa161788598f87180b8db11c5b6)
 - 👥 **Multi-device OAuth sessions.** Users can now stay logged in on multiple devices simultaneously with OAuth, as re-logging in no longer terminates existing sessions. The oldest sessions are automatically pruned when the session limit is exceeded. [#21647](https://github.com/open-webui/open-webui/issues/21647), [Commit](https://github.com/open-webui/open-webui/commit/ae05586fdabf318d551b53ede41575355d3b9e2b)
 - 🔐 **OAuth group default share setting.** Administrators can now configure the default sharing setting for OAuth-created groups using the OAUTH_GROUP_DEFAULT_SHARE environment variable, allowing control over whether new groups default to private or shared with members. [#21679](https://github.com/open-webui/open-webui/pull/21679), [Commit](https://github.com/open-webui/open-webui/commit/4b9f821b58007d4efa4aa16a4995b23126e08a88)
 - 🔧 **Knowledge base import behavior.** The web content import endpoint now supports a configurable overwrite flag, allowing users to add multiple URLs to the same knowledge base instead of replacing existing content. [#21613](https://github.com/open-webui/open-webui/pull/21613), [#21336](https://github.com/open-webui/open-webui/issues/21336), [Commit](https://github.com/open-webui/open-webui/commit/4bef69cc6344ff809090441aa6bced573a2aa838)
@@ -521,7 +521,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔧 **Tool server startup initialization.** External tool servers configured via the "TOOL_SERVER_CONNECTIONS" environment variable now initialize automatically on startup, eliminating the need to manually visit the Admin Panel and save for tools to become available. This enables proper GitOps and containerized deployments. [#18140](https://github.com/open-webui/open-webui/issues/18140), [#20914](https://github.com/open-webui/open-webui/pull/20914), [Commit](https://github.com/open-webui/open-webui/commit/f20cc6d7e6da493eb75ca1618f5cbd068fa57684)
 - ♻️ **Resource handle cleanup.** File handles are now properly closed during audio transcription and pipeline uploads, preventing resource leaks that could cause system instability over time. [#21411](https://github.com/open-webui/open-webui/issues/21411)
 - ⌨️ **Strikethrough shortcut conflict fix.** Pressing Ctrl+Shift+S to toggle the sidebar no longer causes text to become struck through in the chat input, by disabling the TipTap Strike extension's default keyboard shortcut when rich text mode is off. [Commit](https://github.com/open-webui/open-webui/commit/38ae91ae2)
-- 🔧 **Tool call finish_reason fix.** API responses now correctly set finish_reason to "tool_calls" instead of "stop" when tool calls are present, fixing an issue where external API clients (such as OpenCode) would halt prematurely after tool execution when routing Ollama models through the Open WebUI API. [#20896](https://github.com/open-webui/open-webui/issues/20896)
+- 🔧 **Tool call finish_reason fix.** API responses now correctly set finish_reason to "tool_calls" instead of "stop" when tool calls are present, fixing an issue where external API clients (such as OpenCode) would halt prematurely after tool execution when routing Ollama models through the MindLynx Agent API. [#20896](https://github.com/open-webui/open-webui/issues/20896)
 
 ## [0.8.1] - 2026-02-14
 
@@ -562,7 +562,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - 📊 **Analytics dashboard.** Administrators now have access to an Analytics dashboard showing model usage statistics, token consumption by model and user, user activity rankings, and time-series charts with hourly or daily granularity; clicking any model opens a detail view with feedback history, associated tags, and chat browser, and results can be filtered by user group. [#21106](https://github.com/open-webui/open-webui/pull/21106), [Commit](https://github.com/open-webui/open-webui/commit/68a1e87b66a7ec8831d5ed52940c4ef110e3e264), [Commit](https://github.com/open-webui/open-webui/commit/e62649f94044abfed4d7d60647a2050383a67e3d)
-- 🎯 **Experimental support for Skills.** Open WebUI now supports the Skill standard — allowing users to create and manage reusable AI skills with detailed instructions, reference them in chats using the "$" command, or attach them to specific models for automatic context in conversations. [#21312](https://github.com/open-webui/open-webui/pull/21312)
+- 🎯 **Experimental support for Skills.** MindLynx Agent now supports the Skill standard — allowing users to create and manage reusable AI skills with detailed instructions, reference them in chats using the "$" command, or attach them to specific models for automatic context in conversations. [#21312](https://github.com/open-webui/open-webui/pull/21312)
 - 🧪 **Experimental support for Open Responses protocol.** Connections can now be configured to use the experimental Open Responses protocol instead of Chat Completions, enabling native support for extended thinking, streaming reasoning tokens, and richer tool call handling for compatible providers. [Commit](https://github.com/open-webui/open-webui/commit/d2c695eb11ddca9fc93499bb0c3fcafcff7099b5), [Commit](https://github.com/open-webui/open-webui/commit/90a057f4005c000bda6ff8703e13e529190af73a), [Commit](https://github.com/open-webui/open-webui/commit/0dc74a8a2e7adb76fb503ef0cd3c02daddd2f4bb), [Commit](https://github.com/open-webui/open-webui/commit/ea9c58ea80646cef05e06d0beaf5e81cc2f78cb1), [Commit](https://github.com/open-webui/open-webui/commit/6ffce4bccdc13b8b61a8b286e34094c981932eda), [Commit](https://github.com/open-webui/open-webui/commit/6719558150920f570d8febe021da65903e53c976), [Commit](https://github.com/open-webui/open-webui/commit/117c091b95a1b1a76a31c31b97304bac289d6f18), [Commit](https://github.com/open-webui/open-webui/commit/aa8c2959ca8476f269786e1317fb6d2938abd3f9), [Commit](https://github.com/open-webui/open-webui/commit/e2d09ac36174de48a7d85bafc8d3291c9ffe44cd)
 - 👥 **Redesigned access control UI.** The access control UI was redesigned with a more intuitive interface that makes it easier to add multiple groups at once. [#21277](https://github.com/open-webui/open-webui/pull/21277)
 - 👤 **Per-user resource sharing.** Resources including knowledge bases, prompts, models, tools, channels, and base models can now be shared directly to individual users alongside the existing per-group sharing capability. [#21277](https://github.com/open-webui/open-webui/pull/21277)
@@ -596,13 +596,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📌 **Pin read-only models.** Users can now pin read-only models from the workspace. [#21308](https://github.com/open-webui/open-webui/issues/21308), [Commit](https://github.com/open-webui/open-webui/commit/97331bf11d41ca54e47f86777fb8dbd73988c631)
 - 🔍 **Yandex search provider.** Administrators can now configure Yandex as a web search provider, expanding search engine options for retrieval-augmented generation. [#20922](https://github.com/open-webui/open-webui/pull/20922)
 - 🔐 **Custom password hints.** Administrators can now provide custom password requirement hints to users via the "PASSWORD_VALIDATION_HINT" environment variable, making it clearer what password criteria must be met during signup or password changes. [#20647](https://github.com/open-webui/open-webui/issues/20647), [#20650](https://github.com/open-webui/open-webui/pull/20650)
-- 🔑 **OAuth token exchange.** Administrators can now enable OAuth token exchange via "ENABLE_OAUTH_TOKEN_EXCHANGE", allowing external applications to authenticate users by exchanging OAuth provider tokens for Open WebUI session tokens. [Commit](https://github.com/open-webui/open-webui/commit/655420fd25ed0ea872954baa485030079c00c10e)
+- 🔑 **OAuth token exchange.** Administrators can now enable OAuth token exchange via "ENABLE_OAUTH_TOKEN_EXCHANGE", allowing external applications to authenticate users by exchanging OAuth provider tokens for MindLynx Agent session tokens. [Commit](https://github.com/open-webui/open-webui/commit/655420fd25ed0ea872954baa485030079c00c10e)
 - 🗄️ **Weaviate custom endpoints.** Administrators can now connect to self-hosted Weaviate deployments with separate HTTP and gRPC endpoints via new environment variables. [#20620](https://github.com/open-webui/open-webui/pull/20620)
 - 🛡️ **MCP custom SSL certificates.** Administrators can now connect to MCP servers with self-signed or custom SSL certificates via the "AIOHTTP_CLIENT_SESSION_TOOL_SERVER_SSL" environment variable. [#20875](https://github.com/open-webui/open-webui/issues/20875), [Commit](https://github.com/open-webui/open-webui/commit/c7f996d593e4bb48103b91316204fe7e50e25b35)
 - 🗃️ **Redis Sentinel reconnection delay.** Administrators using Redis Sentinel can now configure a reconnection delay via "REDIS_RECONNECT_DELAY" to prevent retry exhaustion during failover elections. [#21021](https://github.com/open-webui/open-webui/pull/21021)
 - 📡 **Custom user info headers.** Administrators can now customize the header names used when forwarding user information to external services, enabling compatibility with services like AWS Bedrock AgentCore that require specific header prefixes. [Commit](https://github.com/open-webui/open-webui/commit/6c0f886cdf4b4249dca29e9340b3b998a7262d61)
 - 🔗 **Forward user info to tool servers.** User identity and chat context can now be forwarded to MCP servers and external tool servers when "ENABLE_FORWARD_USER_INFO_HEADERS" is enabled, allowing tool providers to implement per-user authorization, auditing, and rate limiting. [#21092](https://github.com/open-webui/open-webui/pull/21092), [Commit](https://github.com/open-webui/open-webui/commit/2c37daef86a058e370151ecead17f10078102307)
-- 📬 **External tool event emitters.** External tools (OpenAPI/MCP) can now send tool events back to Open WebUI using the event emitter endpoint, as message ID is now forwarded alongside chat ID when "ENABLE_FORWARD_USER_INFO_HEADERS" is enabled. [#21214](https://github.com/open-webui/open-webui/pull/21214)
+- 📬 **External tool event emitters.** External tools (OpenAPI/MCP) can now send tool events back to MindLynx Agent using the event emitter endpoint, as message ID is now forwarded alongside chat ID when "ENABLE_FORWARD_USER_INFO_HEADERS" is enabled. [#21214](https://github.com/open-webui/open-webui/pull/21214)
 - 📥 **Playground chat export.** Administrators can now export playground chats as JSON or plain text files, allowing them to save their conversations for backup or sharing outside the platform. [Commit](https://github.com/open-webui/open-webui/commit/8e2b0b6fd2ac99c833a110e2bc6aa655f1682669)
 - 🖼️ **Images playground.** Administrators can now test image generation and editing directly in a new Images playground, with support for uploading source images for edits and downloading results. [Commit](https://github.com/open-webui/open-webui/commit/94302de49b27bdf1df86b5c26f2cafb98f964e52)
 - 🛠️ **Dynamic dropdown valve fields.** Tool and function developers can now create dropdown fields with dynamically-generated options that update based on runtime context, such as available models or user permissions. [Commit](https://github.com/open-webui/open-webui/commit/474427c67e953bb9f7d122757a756a639214e0b2)
@@ -778,7 +778,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔥 Administrators can now configure Firecrawl timeout values using the "FIRECRAWL_TIMEOUT" environment variable to control web scraping wait times. [#19973](https://github.com/open-webui/open-webui/pull/19973), [Commit](https://github.com/open-webui/open-webui/commit/89ad1c68d1aadf849960b5e202aa4651096b05f5)
 - 💾 Administrators can now use openGauss as the vector database backend for knowledge base document storage and retrieval. [#20179](https://github.com/open-webui/open-webui/pull/20179)
 - 🔄 Various improvements were implemented across the application to enhance performance, stability, and security.
-- 📊 Users can now sync their anonymous usage statistics to the Open WebUI Community platform to power community leaderboards, drive model evaluations, and contribute to open-source AI research that benefits everyone, all while keeping conversations completely private (only metadata like model names, message counts, and ratings are shared). By sharing your stats, you're helping the community identify which models perform best, contributing to transparent AI benchmarking, and supporting the collective effort to make AI better for all. You can also download your stats as JSON for personal analysis.
+- 📊 Users can now sync their anonymous usage statistics to the MindLynx Agent Community platform to power community leaderboards, drive model evaluations, and contribute to open-source AI research that benefits everyone, all while keeping conversations completely private (only metadata like model names, message counts, and ratings are shared). By sharing your stats, you're helping the community identify which models perform best, contributing to transparent AI benchmarking, and supporting the collective effort to make AI better for all. You can also download your stats as JSON for personal analysis.
 - 🌐 Translations for German, Portuguese (Brazil), Spanish, Simplified Chinese, Traditional Chinese, and Polish were enhanced and expanded.
 
 ### Fixed
@@ -1292,7 +1292,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ⚡ Page initialization performance is significantly improved through parallel data loading and optimized folder API calls, reducing initial page load time. [#17559](https://github.com/open-webui/open-webui/pull/17559), [#17889](https://github.com/open-webui/open-webui/pull/17889)
 - ⚡ Chat overview component is now dynamically loaded on demand, reducing initial page bundle size by approximately 470KB and improving first-screen loading speed. [#17595](https://github.com/open-webui/open-webui/pull/17595)
 - 📁 Folders can now be attached to chats using the "#" command, automatically expanding to include all files within the folder for streamlined knowledge base integration. [Commit](https://github.com/open-webui/open-webui/commit/d2cb78179d66dc85188172a08622d4c97a2ea1ee)
-- 📱 Progressive Web App now supports Android share target functionality, allowing users to share web pages, YouTube videos, and text directly to Open WebUI from the system share menu. [#17633](https://github.com/open-webui/open-webui/pull/17633), [#17125](https://github.com/open-webui/open-webui/issues/17125)
+- 📱 Progressive Web App now supports Android share target functionality, allowing users to share web pages, YouTube videos, and text directly to MindLynx Agent from the system share menu. [#17633](https://github.com/open-webui/open-webui/pull/17633), [#17125](https://github.com/open-webui/open-webui/issues/17125)
 - 🗄️ Redis session storage is now available as an experimental option for OAuth authentication flows via the ENABLE_STAR_SESSIONS_MIDDLEWARE environment variable, providing shared session state across multi-replica deployments to address CSRF errors, though currently only basic Redis setups are supported. [#17223](https://github.com/open-webui/open-webui/pull/17223), [#15373](https://github.com/open-webui/open-webui/issues/15373), [Docs:Commit](https://github.com/open-webui/docs/commit/14052347f165d1b597615370373d7289ce44c7f9)
 - 📊 Vega and Vega-Lite chart visualization renderers are now supported in code blocks, enabling inline rendering of data visualizations with automatic compilation of Vega-Lite specifications. [#18033](https://github.com/open-webui/open-webui/pull/18033), [#18040](https://github.com/open-webui/open-webui/pull/18040), [#18022](https://github.com/open-webui/open-webui/issues/18022)
 - 🔗 OpenAI connections now support custom HTTP headers, enabling users to configure authentication and routing headers for specific deployment requirements. [#18021](https://github.com/open-webui/open-webui/pull/18021), [#9732](https://github.com/open-webui/open-webui/discussions/9732)
@@ -1362,7 +1362,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🛠️ Enhanced tool result processing with improved error handling, better MCP tool result handling, and performance improvements for embedded UI components. [Commit](https://github.com/open-webui/open-webui/commit/4f06f29348b2c9d71c87d1bbe5b748a368f5101f)
 - 👥 New user groups now automatically inherit default group permissions, streamlining the admin setup process by eliminating manual permission configuration. [#17843](https://github.com/open-webui/open-webui/pull/17843)
 - 🗂️ Bulk unarchive functionality for all chats, providing a single backend endpoint to efficiently restore all archived chats at once. [#17857](https://github.com/open-webui/open-webui/pull/17857)
-- 🏷️ Browser tab title toggle setting allows users to control whether chat titles appear in the browser tab or display only "Open WebUI". [#17851](https://github.com/open-webui/open-webui/pull/17851)
+- 🏷️ Browser tab title toggle setting allows users to control whether chat titles appear in the browser tab or display only "MindLynx Agent". [#17851](https://github.com/open-webui/open-webui/pull/17851)
 - 💬 Reply-to-message functionality in channels, allowing users to reply directly to specific messages with visual threading and context display. [Commit](https://github.com/open-webui/open-webui/commit/1a18928c94903ad1f1f0391b8ade042c3e60205b)
 - 🔧 Tool server import and export functionality, allowing direct upload of openapi.json and openapi.yaml files as an alternative to URL-based configuration. [#14446](https://github.com/open-webui/open-webui/issues/14446)
 - 🔧 User valve configuration for Functions is now available in the integration menu, providing consistent management alongside Tools. [#17784](https://github.com/open-webui/open-webui/issues/17784)
@@ -1599,7 +1599,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🗂️ **Shift-to-Delete Functionality for Workspace Prompts**: Added keyboard shortcut support for quick prompt deletion on the Workspace Prompts page. Hold Shift and hover over any prompt to reveal a trash icon for instant deletion, bringing consistent interaction patterns across all workspace sections (Models, Tools, Functions, and now Prompts) and streamlining prompt management workflows.
 - ♿ **Accessibility Enhancements**: Enhanced user interface accessibility with improved keyboard navigation, ARIA labels, and screen reader compatibility across key platform components.
 - 📄 **Optimized PDF Export for Smaller File Size**: PDF exports are now significantly optimized, producing much smaller files for faster downloads and easier sharing or archiving of your chats and documents.
-- 📦 **Slimmed Default Install with Optional Full Dependencies**: Installing Open WebUI via pip now defaults to a slimmer package; PostgreSQL support is no longer included by default—simply use 'pip install open-webui[all]' to include all optional dependencies for full feature compatibility.
+- 📦 **Slimmed Default Install with Optional Full Dependencies**: Installing MindLynx Agent via pip now defaults to a slimmer package; PostgreSQL support is no longer included by default—simply use 'pip install open-webui[all]' to include all optional dependencies for full feature compatibility.
 - 🔄 **General Backend Refactoring**: Implemented various backend improvements to enhance performance, stability, and security, ensuring a more resilient and reliable platform for all users.
 - 🌐 **Localization & Internationalization Improvements**: Enhanced and expanded translations for Finnish, Spanish, Japanese, Polish, Portuguese (Brazil), and Chinese, including missing translations and typo corrections, providing a more natural and professional user experience for speakers of these languages across the entire interface.
 
@@ -1666,7 +1666,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🛠️ **Improved Tool Callable Generation for Google genai SDK**: Enhanced the creation of tool callables to directly support native function calling within the Google 'genai' SDK. This refactoring ensures proper signature inference and removes extraneous parameters, enabling seamless integration for advanced AI workflows using Google's generative AI models.
 - ✨ **Dynamic Loading of 'kokoro-js'**: Implemented dynamic loading for the 'kokoro-js' library, preventing failures and improving compatibility on older iOS browsers that may not support direct imports or certain modern JavaScript APIs like 'DecompressionStream'.
 - 🖥️ **Improved Command List Visibility on Small Screens**: Resolved an issue where the top items in command lists (e.g., Knowledge Base, Models, Prompts) were hidden or overlapped by the header on smaller screen sizes or specific browser zoom levels. The command option lists now dynamically adjust their height, ensuring all items are fully visible and accessible with proper scrolling.
-- 📦 **Improved Docker Image Compatibility for Arbitrary UIDs**: Fixed issues preventing the Open WebUI container from running in environments with arbitrary User IDs (UIDs), such as OpenShift's restricted Security Context Constraints (SCC). The Dockerfile has been updated to correctly set file system permissions for "/app" and "/root" directories, ensuring they are writable by processes running with a supplemental GID 0, thus resolving permission errors for Python libraries and application caches.
+- 📦 **Improved Docker Image Compatibility for Arbitrary UIDs**: Fixed issues preventing the MindLynx Agent container from running in environments with arbitrary User IDs (UIDs), such as OpenShift's restricted Security Context Constraints (SCC). The Dockerfile has been updated to correctly set file system permissions for "/app" and "/root" directories, ensuring they are writable by processes running with a supplemental GID 0, thus resolving permission errors for Python libraries and application caches.
 - ♿ **Accessibility Enhancements**: Significantly improved the semantic structure of chat messages by using "section", "h2", "ul", and "li" HTML tags, and enhanced screen reader compatibility by explicitly hiding decorative images with "aria-hidden" attributes. This refactoring provides clearer structural context and improves overall accessibility and web standards compliance for the conversation flow.
 - 🌐 **Localization & Internationalization Improvements**: Significantly expanded internationalization support throughout the user interface, translating numerous user-facing strings in toast messages, placeholders, and other UI elements. This, alongside continuous refinement and expansion of translations for languages including Brazilian Portuguese, Kabyle (Taqbaylit), Czech, Finnish, Chinese (Simplified), Chinese (Traditional), and German, and general fixes for several other translation files, further enhances linguistic coverage and user experience.
 
@@ -1708,7 +1708,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🐛 **Resolved Exception with Missing Group Permissions**: Fixed an exception that occurred in the access control logic when group permission objects were missing or null. The system now correctly handles cases where groups may not have explicit permission definitions, ensuring that 'None' checks prevent errors and maintain application stability when processing user permissions.
 - 🛠️ **Improved OpenAI API Base URL Handling**: Fixed an issue where a trailing slash in the 'OPENAI_API_BASE_URL' configuration could lead to models not being detected or the endpoint failing. The system now automatically removes trailing slashes from the configured URL, ensuring robust and consistent connections to OpenAI-compatible APIs.
 - 🖼️ **Resolved S3-Compatible Storage Upload Failures**: Fixed an issue where uploads to S3-compatible storage providers would fail with an "XAmzContentSHA256Mismatch" error. The system now correctly handles checksum calculations, ensuring reliable file and image uploads to S3-compatible services.
-- 🌐 **Corrected 'Releases' Link**: Fixed an issue where the 'Releases' button in the user menu directed to an incorrect URL, now correctly linking to the Open WebUI GitHub releases page.
+- 🌐 **Corrected 'Releases' Link**: Fixed an issue where the 'Releases' button in the user menu directed to an incorrect URL, now correctly linking to the MindLynx Agent GitHub releases page.
 - 🛠️ **Resolved Model Sorting Errors with Null or Undefined Names**: Fixed multiple "TypeError" instances that occurred when attempting to sort model lists where model names were null or undefined. The sorting logic across various UI components (including Ollama model selection, leaderboard, and admin model settings) has been made more robust by gracefully handling absent model names, preventing crashes and ensuring consistent alphabetical sorting based on available name or ID.
 - 🎨 **Resolved Banner Dismissal Issue with Iteration IDs**: Fixed a bug where dismissing banners could lead to unintended multiple banner dismissals or other incorrect behavior, especially when banners lacked unique iteration IDs. Unique IDs are now assigned during banner iteration, ensuring proper individual dismissal and consistent display behavior.
 
@@ -1723,7 +1723,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- 🔗 **OpenAI API '/v1' Endpoint Compatibility**: Enhanced API compatibility by supporting requests to paths like '/v1/models', '/v1/embeddings', and '/v1/chat/completions'. This allows Open WebUI to integrate more seamlessly with tools that expect OpenAI's '/v1' API structure.
+- 🔗 **OpenAI API '/v1' Endpoint Compatibility**: Enhanced API compatibility by supporting requests to paths like '/v1/models', '/v1/embeddings', and '/v1/chat/completions'. This allows MindLynx Agent to integrate more seamlessly with tools that expect OpenAI's '/v1' API structure.
 - 🪄 **Toggle for Guided Response Regeneration Menu**: Introduced a new setting in 'Interface' settings, providing the ability to enable or disable the expanded guided response regeneration menu. This offers users more control over their chat workflow and interface preferences.
 - ✨ **General UI/UX Enhancements**: Implemented various user interface and experience improvements, including more rounded corners for cards in the Knowledge, Prompts, and Tools sections, and minor layout adjustments within the chat Navbar for improved visual consistency.
 - 🌐 **Localization & Internationalization Improvements**: Introduced support for the Kabyle (Taqbaylit) language, refined and expanded translations for Chinese, expanding the platform's linguistic coverage.
@@ -1807,7 +1807,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🛡️ **Hardened OAuth Security by Removing JWT from URL**: Fixed a critical security vulnerability where the authentication token was exposed in the URL after a successful OAuth login. The token is now transferred via a browser cookie, preventing potential leaks through browser history or server logs and protecting user sessions.
 - 🛡️ **Hardened Chat Completion API Security**: The chat completion API endpoint now includes an explicit ownership check, ensuring non-admin users cannot access chats that do not belong to them and preventing potential unauthorized access.
 - 🛠️ **Resilient Model Loading**: Fixed an issue where a failure in loading the model list (e.g., from a misconfigured provider) would prevent the entire user interface, including the admin panel, from loading. The application now gracefully handles these errors, ensuring the UI remains accessible.
-- 🔒 **Resolved FIPS Self-Test Failure**: Fixed a critical issue that prevented Open WebUI from running on FIPS-compliant systems, specifically resolving the "FATAL FIPS SELFTEST FAILURE" error related to OpenSSL and SentenceTransformers, restoring compatibility with secure environments.
+- 🔒 **Resolved FIPS Self-Test Failure**: Fixed a critical issue that prevented MindLynx Agent from running on FIPS-compliant systems, specifically resolving the "FATAL FIPS SELFTEST FAILURE" error related to OpenSSL and SentenceTransformers, restoring compatibility with secure environments.
 - 📦 **Redis Cluster Connection Restored**: Fixed an issue where the backend was unable to connect to Redis in cluster mode, now ensuring seamless integration with scalable Redis cluster deployments.
 - 📦 **PGVector Connection Stability**: Fixed an issue where read-only operations could leave database transactions idle, preventing potential connection errors and improving overall database stability and resource management.
 - 🛠️ **OpenAPI Tool Integration for Array Parameters Fixed**: Resolved a critical bug where external tools using array parameters (e.g., for tags) would fail when used with OpenAI models. The system now correctly generates the required 'items' property in the function schema, restoring functionality and preventing '400 Bad Request' errors.
@@ -1954,9 +1954,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🎨 **Accessibility & High-Contrast Theme Enhancements**: Major accessibility overhaul with significant updates to the high-contrast theme. Improved focus visibility, ARIA labels, and semantic HTML ensure core components like the chat interface and model selector are fully compliant and readable for visually impaired users.
 - ↕️ **Resizable System Prompt Fields**: Conveniently resize system prompt input fields to comfortably view and edit lengthy or complex instructions, improving the user experience for advanced model configuration.
 - 🔧 **Granular Update Check Control**: Gain finer control over outbound connections with the new ENABLE_VERSION_UPDATE_CHECK flag. This allows administrators to disable version update checks independently of the full OFFLINE_MODE, perfect for environments with restricted internet access that still need to download embedding models.
-- 🗃️ **Configurable Qdrant Collection Prefix**: Enhance scalability by setting a custom QDRANT_COLLECTION_PREFIX. This allows multiple Open WebUI instances to share a single Qdrant cluster safely, ensuring complete data isolation between separate deployments without conflicts.
+- 🗃️ **Configurable Qdrant Collection Prefix**: Enhance scalability by setting a custom QDRANT_COLLECTION_PREFIX. This allows multiple MindLynx Agent instances to share a single Qdrant cluster safely, ensuring complete data isolation between separate deployments without conflicts.
 - ⚙️ **Improved Default Database Performance**: Enhanced out-of-the-box performance by setting smarter database connection pooling defaults, reducing API response times for users on non-SQLite databases without requiring manual configuration.
-- 🔧 **Configurable Redis Key Prefix**: Added support for the REDIS_KEY_PREFIX environment variable, allowing multiple Open WebUI instances to share a Redis cluster with isolated key namespaces for improved multi-tenancy.
+- 🔧 **Configurable Redis Key Prefix**: Added support for the REDIS_KEY_PREFIX environment variable, allowing multiple MindLynx Agent instances to share a Redis cluster with isolated key namespaces for improved multi-tenancy.
 - ➡️ **Forward User Context to Reranker**: For advanced RAG integrations, user information (ID, name, email, role) can now be forwarded as HTTP headers to external reranking services, enabling personalized results or per-user access control.
 - ⚙️ **PGVector Connection Pooling**: Enhance performance and stability for PGVector-based RAG by enabling and configuring the database connection pool. New environment variables allow fine-tuning of pool size, timeout, and overflow settings to handle high-concurrency workloads efficiently.
 - ⚙️ **General Backend Refactoring**: Extensive refactoring delivers a faster, more reliable, and robust backend experience—improving chat speed, model management, and day-to-day reliability.
@@ -1987,13 +1987,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 🖼️ **Global Image Compression Option**: Effortlessly set image compression globally so all image uploads and outputs are optimized, speeding up load times and saving bandwidth—perfect for teams dealing with large files or limited network resources.
 - 🎤 **Custom Speech-to-Text Content-Type for Transcription**: Define custom content types for audio transcription, ensuring compatibility with diverse audio sources and unlocking smoother, more accurate transcriptions in advanced setups.
-- 🗂️ **LDAP Group Synchronization (Experimental)**: Automatically sync user groups from your LDAP directory directly into Open WebUI for seamless enterprise access management—simplifies identity integration and governance across your organization.
+- 🗂️ **LDAP Group Synchronization (Experimental)**: Automatically sync user groups from your LDAP directory directly into MindLynx Agent for seamless enterprise access management—simplifies identity integration and governance across your organization.
 - 📈 **OpenTelemetry Metrics via OTLP Exporter (Experimental)**: Gain enterprise-grade analytics and monitor your AI usage in real time with experimental OpenTelemetry Metrics support—connect to any OTLP-compatible backend for instant insights into performance, load, and user interactions.
 - 🕰️ **See User Message Timestamps on Hover (Chat Bubble UI)**: Effortlessly check when any user message was sent by hovering over it in Chat Bubble mode—no more switching screens or digging through logs for context.
 - 🗂️ **Leaderboard Sorting Options**: Sort the leaderboard directly in the UI for a clearer, more actionable view of top performers, models, or tools—making analysis and recognition quick and easy for teams.
 - 🏆 **Evaluation Details Modal in Feedbacks and Leaderboard**: Dive deeper with new modals that display detailed evaluation information when reviewing feedbacks and leaderboard rankings—accelerates learning, progress tracking, and quality improvement.
 - 🔄 **Support for Multiple Pages in External Document Loaders**: Effortlessly extract and work with content spanning multiple pages in external documents, giving you complete flexibility for in-depth research and document workflows.
-- 🌐 **New Accessibility Enhancements Across the Interface**: Benefit from significant accessibility improvements—tab navigation, ARIA roles/labels, better high-contrast text/modes, accessible modals, and more—making Open WebUI more usable and equitable for everyone, including those using assistive technologies.
+- 🌐 **New Accessibility Enhancements Across the Interface**: Benefit from significant accessibility improvements—tab navigation, ARIA roles/labels, better high-contrast text/modes, accessible modals, and more—making MindLynx Agent more usable and equitable for everyone, including those using assistive technologies.
 - ⚡ **Performance & Stability Upgrades Across Frontend and Backend**: Enjoy a smoother, more reliable experience with numerous behind-the-scenes optimizations and refactoring on both frontend and backend—resulting in faster load times, fewer errors, and even greater stability throughout your workflows.
 - 🌏 **Updated and Expanded Localizations**: Enjoy improved, up-to-date translations for Finnish, German (now with model pinning features), Korean, Russian, Simplified Chinese, Spanish, and more—making every interaction smoother, clearer, and more intuitive for international users.
 
@@ -2021,7 +2021,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- 🤖 **Automatic "Follow Up" Suggestions**: Open WebUI now intelligently generates actionable "Follow Up" suggestions automatically with each message you send, helping you stay productive and inspired without interrupting your flow; you can always disable this in Settings if you prefer a distraction-free experience.
+- 🤖 **Automatic "Follow Up" Suggestions**: MindLynx Agent now intelligently generates actionable "Follow Up" suggestions automatically with each message you send, helping you stay productive and inspired without interrupting your flow; you can always disable this in Settings if you prefer a distraction-free experience.
 - 🧩 **OpenAI-Compatible Embeddings Endpoint**: Introducing a fully OpenAI-style '/api/embeddings' endpoint—now you can plug in OpenAI-style embeddings workflows with zero hassle, making integrations with external tools and platforms seamless and familiar.
 - ↗️ **Model Pinning for Quick Access**: Pin your favorite or most-used models to the sidebar for instant selection—no more scrolling through long model lists; your go-to models are always visible and ready for fast access.
 - 📌 **Selector Model Item Menu**: Each model in the selector now features a menu where you can easily pin/unpin to the sidebar and copy a direct link—simplifying collaboration and staying organized in even the busiest environments.
@@ -2069,7 +2069,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 🛡️ **Robust Message Handling on Chat Load**: Fixed an issue where chat pages could fail to load if a referenced message was missing or undefined; now, chats always load smoothly and missing IDs no longer disrupt your workflow.
 - 📝 **Correct Prompt Access Control**: Ensured that the prompt access controls register properly, restoring reliable permissioning and safeguarding your prompt workflows.
-- 🛠 **Open WebUI-Specific Params No Longer Sent to Models**: Fixed a bug that sent internal WebUI parameters to APIs, ensuring only intended model options are transmitted—restoring predictable, error-free model operation.
+- 🛠 **MindLynx Agent-Specific Params No Longer Sent to Models**: Fixed a bug that sent internal WebUI parameters to APIs, ensuring only intended model options are transmitted—restoring predictable, error-free model operation.
 - 🧠 **Refined Memory Error Handling**: Enhanced stability during memory-related operations, so even uncommon memory errors are gracefully managed without disrupting your session—resulting in a more reliable, worry-free experience.
 
 ## [0.6.12] - 2025-05-29
@@ -2109,7 +2109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🚀 **Environment Variable: WEBUI_AUTH_TRUSTED_GROUPS_HEADER**: Now sync and manage user groups directly via trusted HTTP header, unlocking smoother single sign-on and identity integrations for organizations.
 - 🏢 **Workspace Models Visibility Controls**: You can now hide workspace-level models from both the model selector and shared environments—keep your team focused and reduce clutter from rarely-used endpoints.
 - 🛡️ **Copy Model Link**: You can now copy a direct link to any model—including those hidden from the selector—making sharing and onboarding others more seamless.
-- 🔗 **Load Function Directly from URL**: Simplify custom function management—just paste any GitHub function URL into Open WebUI and import new functions in seconds.
+- 🔗 **Load Function Directly from URL**: Simplify custom function management—just paste any GitHub function URL into MindLynx Agent and import new functions in seconds.
 - ⚙️ **Custom Name/Description for External Tool Servers**: Personalize and clarify external tool servers by assigning custom names and descriptions, making it easier to manage integrations in large-scale workspaces.
 - 🌍 **Custom OpenAPI JSON URL Support for Tool Servers**: Supports specifying any custom OpenAPI JSON URL, unlocking more flexible integration with any backend for tool calls.
 - 📊 **Source Field Now Displays in Non-Streaming Responses with Attachments**: When files or knowledge are attached, the "source" field now appears for all responses, even in non-streaming mode—enabling improved citation workflow.
@@ -2245,7 +2245,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - 📝 **AI-Enhanced Notes (With Audio Transcription)**: Effortlessly create notes, attach meeting or voice audio, and let the AI instantly enhance, summarize, or refine your notes using audio transcriptions—making your documentation smarter, cleaner, and more insightful with minimal effort.
 - 🔊 **Meeting Audio Recording & Import**: Seamlessly record audio from your meetings or capture screen audio and attach it to your notes—making it easier to revisit, annotate, and extract insights from important discussions.
-- 📁 **Import Markdown Notes Effortlessly**: Bring your existing knowledge library into Open WebUI by importing your Markdown notes, so you can leverage all advanced note management and AI features right away.
+- 📁 **Import Markdown Notes Effortlessly**: Bring your existing knowledge library into MindLynx Agent by importing your Markdown notes, so you can leverage all advanced note management and AI features right away.
 - 👥 **Notes Permissions by User Group**: Fine-tune access and editing rights for notes based on user roles or groups, so you can delegate writing or restrict sensitive information as needed.
 - ☁️ **OneDrive & SharePoint Integration**: Keep your content in sync by connecting notes and files directly with OneDrive or SharePoint—unlocking fast enterprise import/export and seamless collaboration with your existing workflows.
 - 🗂️ **Paginated User List in Admin Panel**: Effortlessly manage and search through large teams via the new paginated user list—saving time and streamlining user administration in big organizations.
@@ -2282,7 +2282,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- 📜 **Custom License Update & Contributor Agreement**: Open WebUI now operates under a custom license with Contributor License Agreement required by default—see https://docs.openwebui.com/license/ for details, ensuring sustainable open innovation for the community.
+- 📜 **Custom License Update & Contributor Agreement**: MindLynx Agent now operates under a custom license with Contributor License Agreement required by default—see https://docs.openwebui.com/license/ for details, ensuring sustainable open innovation for the community.
 - 🔨 **CUDA Docker Images Updated to 12.8**: Upgraded CUDA image support for faster, more compatible model inference and futureproof GPU performance in your AI infrastructure.
 - 🧱 **General Backend Refactoring for Reliability**: Continuous stability improvements streamline backend logic, reduce errors, and lay a stronger foundation for the next wave of feature releases—all under the hood for a more dependable WebUI.
 
@@ -2321,7 +2321,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 👥 **Multi-Model Chat Permission Control**: Admins can manage access to multi-model chats per user group—allowing tighter governance in team environments.
 - 🧱 **Persistent Configuration Can Be Disabled**: New environment variable lets advanced users and hosts turn off persistent configs—ideal for volatile or stateless deployments.
 - 🧠 **Elixir Code Highlighting Support**: Elixir syntax is now beautifully rendered in code blocks—perfect for developers using this language in AI or automation projects.
-- 🌐 **PWA External Manifest URL Support**: You can now define an external manifest.json—integrate Open WebUI seamlessly in managed or proxy-based PWA environments like Cloudflare Zero Trust.
+- 🌐 **PWA External Manifest URL Support**: You can now define an external manifest.json—integrate MindLynx Agent seamlessly in managed or proxy-based PWA environments like Cloudflare Zero Trust.
 - 🧪 **Azure AI Speech-to-Text Provider Integration**: Easily transcribe large audio files (up to 200MB) with high accuracy using Microsoft's Azure STT—fully configurable in Audio Settings.
 - 🔏 **PKCE (Code Challenge Method) Support for OIDC**: Enhance your OIDC login security with Proof Key for Code Exchange—ideal for zero-trust and native client apps.
 - ✨ **General UI/UX Enhancements**: Numerous refinements across layout, styling, and tool interactions—reducing visual noise and improving overall usability across key workflows.
@@ -2391,9 +2391,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- 🧩 **External Tool Server Support via OpenAPI**: Connect Open WebUI to any OpenAPI-compatible REST server instantly—offering immediate integration with thousands of developer tools, SDKs, and SaaS systems for powerful extensibility. Learn more: https://github.com/open-webui/openapi-servers
-- 🛠️ **MCP Server Support via MCPO**: You can now convert and expose your internal MCP tools as interoperable OpenAPI HTTP servers within Open WebUI for seamless, plug-n-play AI toolchain creation. Learn more: https://github.com/open-webui/mcpo
-- 📨 **/messages Chat API Endpoint Support**: For power users building external AI systems, new endpoints allow precise control of messages asynchronously—feed long-running external responses into Open WebUI chats without coupling with the frontend.
+- 🧩 **External Tool Server Support via OpenAPI**: Connect MindLynx Agent to any OpenAPI-compatible REST server instantly—offering immediate integration with thousands of developer tools, SDKs, and SaaS systems for powerful extensibility. Learn more: https://github.com/open-webui/openapi-servers
+- 🛠️ **MCP Server Support via MCPO**: You can now convert and expose your internal MCP tools as interoperable OpenAPI HTTP servers within MindLynx Agent for seamless, plug-n-play AI toolchain creation. Learn more: https://github.com/open-webui/mcpo
+- 📨 **/messages Chat API Endpoint Support**: For power users building external AI systems, new endpoints allow precise control of messages asynchronously—feed long-running external responses into MindLynx Agent chats without coupling with the frontend.
 - 📝 **Client-Side PDF Generation**: PDF exports are now generated fully client-side for drastically improved output quality—perfect for saving conversations or documents.
 - 💼 **Enforced Temporary Chats Mode**: Admins can now enforce temporary chat sessions by default to align with stringent data retention and compliance requirements.
 - 🌍 **Public Resource Sharing Permission Controls**: Fine-grained user group permissions now allow enabling/disabling public sharing for models, knowledge, prompts, and tools—ideal for privacy, team control, and internal deployments.
@@ -2401,7 +2401,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔢 **Editable Message Counter**: You can now double-click the message count number and jump straight to editing the index—quickly navigate complex chats or regenerate specific messages precisely.
 - 🧠 **Embedding Prefix Support Added**: Add custom prefixes to your embeddings for instruct-style tokens, enabling stronger model alignment and more consistent RAG performance.
 - 🙈 **Ability to Hide Base Models**: Optionally hide base models from the UI, helping users streamline model visibility and limit access to only usable endpoints..
-- 📚 **Docling Content Extraction Support**: Open WebUI now supports Docling as a content extraction engine, enabling smarter and more accurate parsing of complex file formats—ideal for advanced document understanding and Retrieval-Augmented Generation (RAG) workflows.
+- 📚 **Docling Content Extraction Support**: MindLynx Agent now supports Docling as a content extraction engine, enabling smarter and more accurate parsing of complex file formats—ideal for advanced document understanding and Retrieval-Augmented Generation (RAG) workflows.
 - 🗃️ **Redis Sentinel Support Added**: Enhance deployment redundancy with support for Redis Sentinel for highly available, failover-safe Redis-based caching or pub/sub.
 - 📚 **JSON Schema Format for Ollama**: Added support for defining the format using JSON schema in Ollama-compatible models, improving flexibility and validation of model outputs.
 - 🔍 **Chat Sidebar Search "Clear” Button**: Quickly clear search filters in chat sidebar using the new ✖️ button—streamline your chat navigation with one click.
@@ -2410,7 +2410,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔁 **Hybrid Search Runs in Parallel Now**: Hybrid (BM25 + embedding) search components now run in parallel—dramatically reducing response times and speeding up document retrieval.
 - 📋 **Cleaner UI for Tool Call Display**: Optimized the visual layout of called tools inside chat messages for better clarity and reduced visual clutter.
 - 🧪 **Playwright Timeout Now Configurable**: Default timeout for Playwright processes is now shorter and adjustable via environment variables—making web scraping more robust and tunable to environments.
-- 📈 **OpenTelemetry Support for Observability**: Open WebUI now integrates with OpenTelemetry, allowing you to connect with tools like Grafana, Jaeger, or Prometheus for detailed performance insights and real-time visibility—entirely opt-in and fully self-hosted. Even if enabled, no data is ever sent to us, ensuring your privacy and ownership over all telemetry data.
+- 📈 **OpenTelemetry Support for Observability**: MindLynx Agent now integrates with OpenTelemetry, allowing you to connect with tools like Grafana, Jaeger, or Prometheus for detailed performance insights and real-time visibility—entirely opt-in and fully self-hosted. Even if enabled, no data is ever sent to us, ensuring your privacy and ownership over all telemetry data.
 - 🛠 **General UI Enhancements & UX Polish**: Numerous refinements across sidebar, code blocks, modal interactions, button alignment, scrollbar visibility, and folder behavior improve overall fluidity and usability of the interface.
 - 🧱 **General Backend Refactoring**: Numerous backend components have been refactored to improve stability, maintainability, and performance—ensuring a more consistent and reliable system across all features.
 - 🌍 **Internationalization Language Support Updates**: Added Estonian and Galician languages, improved Spanish (fully revised), Traditional Chinese, Simplified Chinese, Turkish, Catalan, Ukrainian, and German for a more localized and inclusive interface.
@@ -2470,7 +2470,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **🌐 Open WebUI Now Works Over LAN in Insecure Context**: Resolved an issue preventing Open WebUI from functioning when accessed over a local network in an insecure context, ensuring seamless connectivity.
+- **🌐 MindLynx Agent Now Works Over LAN in Insecure Context**: Resolved an issue preventing MindLynx Agent from functioning when accessed over a local network in an insecure context, ensuring seamless connectivity.
 - **🔄 UI Now Reflects Deleted Connections Instantly**: Fixed an issue where deleting a connection did not update the UI in real time, ensuring accurate system state visibility.
 - **🛠️ Models Now Display Correctly with ENABLE_FORWARD_USER_INFO_HEADERS**: Addressed a bug where models were not visible when ENABLE_FORWARD_USER_INFO_HEADERS was set, restoring proper model listing.
 
@@ -2508,11 +2508,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **📄 Full Context Mode for Local Document Search (RAG)**: Toggle full context mode from Admin Settings > Documents to inject entire document content into context, improving accuracy for models with large context windows—ideal for deep context understanding.
 - **🌍 Smarter Web Search with Agentic Workflows**: Web searches now intelligently gather and refine multiple relevant terms, similar to RAG handling, delivering significantly better search results for more accurate information retrieval.
 - **🔎 Experimental Playwright Support for Web Loader**: Web content retrieval is taken to the next level with Playwright-powered scraping for enhanced accuracy in extracted web data.
-- **☁️ Experimental Azure Storage Provider**: Early-stage support for Azure Storage allows more cloud storage flexibility directly within Open WebUI.
+- **☁️ Experimental Azure Storage Provider**: Early-stage support for Azure Storage allows more cloud storage flexibility directly within MindLynx Agent.
 - **📊 Improved Jupyter Code Execution with Plots**: Interactive coding now properly displays inline plots, making data visualization more seamless inside chat interactions.
 - **⏳ Adjustable Execution Timeout for Jupyter Interpreter**: Customize execution timeout (default: 60s) for Jupyter-based code execution, allowing longer or more constrained execution based on your needs.
 - **▶️ "Running..." Indicator for Jupyter Code Execution**: A visual indicator now appears while code execution is in progress, providing real-time status updates on ongoing computations.
-- **⚙️ General Backend & Frontend Stability Enhancements**: Extensive refactoring improves reliability, performance, and overall user experience for a more seamless Open WebUI.
+- **⚙️ General Backend & Frontend Stability Enhancements**: Extensive refactoring improves reliability, performance, and overall user experience for a more seamless MindLynx Agent.
 - **🌍 Translation Updates**: Various international translation refinements ensure better localization and a more natural user interface experience.
 
 ### Fixed
@@ -2566,7 +2566,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **🎤 Kokoro-JS TTS Support**: A new on-device, high-quality text-to-speech engine has been integrated, vastly improving voice generation quality—everything runs directly in your browser.
 - **🐍 Jupyter Notebook Support in Code Interpreter**: Now, you can configure Code Interpreter to run Python code not only via Pyodide but also through Jupyter, offering a more robust coding environment for AI-driven computations and analysis.
-- **🔗 Direct API Connections for Private & Local Inference**: You can now connect Open WebUI to your private or localhost API inference endpoints. CORS must be enabled, but this unlocks direct, on-device AI infrastructure support.
+- **🔗 Direct API Connections for Private & Local Inference**: You can now connect MindLynx Agent to your private or localhost API inference endpoints. CORS must be enabled, but this unlocks direct, on-device AI infrastructure support.
 - **🔍 Advanced Domain Filtering for Web Search**: You can now specify which domains should be included or excluded from web searches, refining results for more relevant information retrieval.
 - **🚀 Improved Image Generation Metadata Handling**: Generated images now retain metadata for better organization and future retrieval.
 - **📂 S3 Key Prefix Support**: Fine-grained control over S3 storage file structuring with configurable key prefixes.
@@ -2608,7 +2608,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **🔗 Exa Search Engine Integration**: A new search provider has been added, allowing users to retrieve up-to-date and relevant information without leaving the chat interface.
 - **🌍 Localized Dates & Times**: Date and time formats now match your system locale, ensuring a more natural, region-specific experience.
 - **📎 User Headers for External Embedding APIs**: API calls to external embedding services now include user-related headers.
-- **🌍 "Always On" Web Search Toggle**: A new option under Settings > Interface allows users to enable Web Search by default—transform Open WebUI into your go-to search engine, ensuring AI-powered results with every query.
+- **🌍 "Always On" Web Search Toggle**: A new option under Settings > Interface allows users to enable Web Search by default—transform MindLynx Agent into your go-to search engine, ensuring AI-powered results with every query.
 - **🚀 General Performance & Stability**: Significant improvements across the platform for a faster, more reliable experience.
 - **🖼️ UI/UX Enhancements**: Numerous design refinements improving readability, responsiveness, and accessibility.
 - **🌍 Improved Translations**: Chinese, Korean, French, Ukrainian and Serbian translations have been updated with refined terminologies for better clarity.
@@ -2676,7 +2676,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **⚙️ General Stability Refac**: Backend refactoring delivers a more stable, robust platform.
-- **🖥️ Desktop App Preparations**: Ongoing work to support the upcoming Open WebUI desktop app. Follow our progress and updates here: https://github.com/open-webui/desktop
+- **🖥️ Desktop App Preparations**: Ongoing work to support the upcoming MindLynx Agent desktop app. Follow our progress and updates here: https://github.com/open-webui/desktop
 
 ## [0.5.4] - 2025-01-05
 
@@ -2684,7 +2684,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **🔄 Clone Shared Chats**: Effortlessly clone shared chats to save time and streamline collaboration, perfect for reusing insightful discussions or custom setups.
 - **📣 Native Notifications for Channel Messages**: Stay informed with integrated desktop notifications for channel messages, ensuring you never miss important updates while multitasking.
-- **🔥 Torch MPS Support**: MPS support for Mac users when Open WebUI is installed directly, offering better performance and compatibility for AI workloads.
+- **🔥 Torch MPS Support**: MPS support for Mac users when MindLynx Agent is installed directly, offering better performance and compatibility for AI workloads.
 - **🌍 Enhanced Translations**: Small improvements to various translations, ensuring a smoother global user experience.
 
 ### Fixed
@@ -2779,7 +2779,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **💡 API Key Authentication Restriction**: Narrowed API key auth permissions to '/api/models' and '/api/chat/completions' for enhanced security and better API governance.
-- **⚙️ Backend Overhaul for Performance**: Major backend restructuring; a heads-up that some "Functions" using internal variables may face compatibility issues. Moving forward, websocket support is mandatory to ensure Open WebUI operates seamlessly.
+- **⚙️ Backend Overhaul for Performance**: Major backend restructuring; a heads-up that some "Functions" using internal variables may face compatibility issues. Moving forward, websocket support is mandatory to ensure MindLynx Agent operates seamlessly.
 
 ### Removed
 
@@ -2917,7 +2917,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **💻 Redesigned Collaborative Workspace**: Enhanced support for multiple users contributing to models, knowledge, prompts, or tools, improving collaboration.
 - **🔧 Auto-Selected Tools in Model Editor**: Tools enabled through the model editor are now automatically selected, whereas previously it only gave users the option to enable the tool, reducing manual steps and enhancing efficiency.
 - **🔔 Web Search & Tools Indicator**: A clear indication now shows when web search or tools are active, reducing confusion.
-- **🔑 Toggle API Key Auth**: Tighten security by easily enabling or disabling API key authentication option for Open WebUI.
+- **🔑 Toggle API Key Auth**: Tighten security by easily enabling or disabling API key authentication option for MindLynx Agent.
 - **🗂️ Agentic Retrieval**: Improve RAG accuracy via smart pre-processing of chat history to determine the best queries before retrieval.
 - **📁 Large Text as File Option**: Optionally convert large pasted text into a file upload, keeping the chat interface cleaner.
 - **🗂️ Toggle Citations for Models**: Ability to disable citations has been introduced in the model editor.
@@ -2932,7 +2932,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **🎥 YouTube Video Attachments**: Fixed issues preventing proper loading and attachment of YouTube videos as files.
 - **🔄 Shared Chat Update**: Corrected issues where shared chats were not updating, improving collaboration consistency.
 - **🔍 DuckDuckGo Rate Limit Fix**: Addressed issues with DuckDuckGo search integration, enhancing search stability and performance when operating within rate limits.
-- **🧾 Citations Relevance Fix**: Adjusted the relevance percentage calculation for citations, so that Open WebUI properly reflect the accuracy of a retrieved document in RAG, ensuring users get clearer insights into sources.
+- **🧾 Citations Relevance Fix**: Adjusted the relevance percentage calculation for citations, so that MindLynx Agent properly reflect the accuracy of a retrieved document in RAG, ensuring users get clearer insights into sources.
 - **🔑 Jina Search API Key Requirement**: Added the option to input an API key for Jina Search, ensuring smooth functionality as keys are now mandatory.
 
 ### Changed
@@ -3228,7 +3228,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **🌐 Refined Web Search Integration**: Deprecated the Search Query Generation Prompt threshold; introduced a toggle button for "Enable Web Search Query Generation" allowing users to opt-in to using web search more judiciously.
-- **📝 Default Prompt Templates Update**: Emptied environment variable templates for search and title generation now default to the Open WebUI default prompt templates, simplifying configuration efforts.
+- **📝 Default Prompt Templates Update**: Emptied environment variable templates for search and title generation now default to the MindLynx Agent default prompt templates, simplifying configuration efforts.
 
 ## [0.3.19] - 2024-09-05
 
@@ -3285,7 +3285,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **🚀 Config DB Migration**: Migrated configuration handling from config.json to the database, enabling high-availability setups and load balancing across multiple Open WebUI instances.
+- **🚀 Config DB Migration**: Migrated configuration handling from config.json to the database, enabling high-availability setups and load balancing across multiple MindLynx Agent instances.
 - **🔗 Call Mode Activation via URL**: Added a 'call=true' URL search parameter enabling direct shortcuts to activate call mode, enhancing user interaction on mobile devices.
 - **✨ TTS Content Control**: Added functionality to control how message content is segmented for Text-to-Speech (TTS) generation requests, allowing for more flexible speech output options.
 - **😄 Show Knowledge Search Status**: Enhanced model usage transparency by displaying status when working with knowledge-augmented models, helping users understand the system's state during queries.
@@ -3356,7 +3356,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **🎨 Enhanced Markdown Rendering**: Significant improvements in rendering markdown, ensuring smooth and reliable display of LaTeX and Mermaid charts, enhancing user experience with more robust visual content.
-- **🔄 Auto-Install Tools & Functions Python Dependencies**: For 'Tools' and 'Functions', Open WebUI now automatically install extra python requirements specified in the frontmatter, streamlining setup processes and customization.
+- **🔄 Auto-Install Tools & Functions Python Dependencies**: For 'Tools' and 'Functions', MindLynx Agent now automatically install extra python requirements specified in the frontmatter, streamlining setup processes and customization.
 - **🌀 OAuth Email Claim Customization**: Introduced an 'OAUTH_EMAIL_CLAIM' variable to allow customization of the default "email" claim within OAuth configurations, providing greater flexibility in authentication processes.
 - **📶 Websocket Reconnection**: Enhanced reliability with the capability to automatically reconnect when a websocket is closed, ensuring consistent and stable communication.
 - **🤳 Haptic Feedback on Support Devices**: Android devices now support haptic feedback for an immersive tactile experience during certain interactions.
@@ -3517,7 +3517,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **✨ "Functions" Feature**: You can now utilize "Functions" like filters (middleware) and pipe (model) functions directly within the WebUI. While largely compatible with Pipelines, these native functions can be executed easily within Open WebUI. Example use cases for filter functions include usage monitoring, real-time translation, moderation, and automemory. For pipe functions, the scope ranges from Cohere and Anthropic integration directly within Open WebUI, enabling "Valves" for per-user OpenAI API key usage, and much more. If you encounter issues, SAFE_MODE has been introduced.
+- **✨ "Functions" Feature**: You can now utilize "Functions" like filters (middleware) and pipe (model) functions directly within the WebUI. While largely compatible with Pipelines, these native functions can be executed easily within MindLynx Agent. Example use cases for filter functions include usage monitoring, real-time translation, moderation, and automemory. For pipe functions, the scope ranges from Cohere and Anthropic integration directly within MindLynx Agent, enabling "Valves" for per-user OpenAI API key usage, and much more. If you encounter issues, SAFE_MODE has been introduced.
 - **📁 Files API**: Compatible with OpenAI, this feature allows for custom Retrieval-Augmented Generation (RAG) in conjunction with the Filter Function. More examples will be shared on our community platform and official documentation website.
 - **🛠️ Tool Enhancements**: Tools now support citations and "Valves". Documentation will be available shortly.
 - **🔗 Iframe Support via Files API**: Enables rendering HTML directly into your chat interface using functions and tools. Use cases include playing games like DOOM and Snake, displaying a weather applet, and implementing Anthropic "artifacts"-like features. Stay tuned for updates on our community platform and documentation.
@@ -3579,7 +3579,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **🛠️ Native Python Function Calling**: Introducing native Python function calling within Open WebUI. We’ve also included a built-in code editor to seamlessly develop and integrate function code within the 'Tools' workspace. With this, you can significantly enhance your LLM’s capabilities by creating custom RAG pipelines, web search tools, and even agent-like features such as sending Discord messages.
+- **🛠️ Native Python Function Calling**: Introducing native Python function calling within MindLynx Agent. We’ve also included a built-in code editor to seamlessly develop and integrate function code within the 'Tools' workspace. With this, you can significantly enhance your LLM’s capabilities by creating custom RAG pipelines, web search tools, and even agent-like features such as sending Discord messages.
 - **🌐 DuckDuckGo Integration**: Added DuckDuckGo as a web search provider, giving you more search options.
 - **🌏 Enhanced Translations**: Improved translations for Vietnamese and Chinese languages, making the interface more accessible.
 
@@ -3630,7 +3630,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **📝 Prompt Input Clearing**: Resolved prompt input textarea not being cleared right away, ensuring a clean slate for new inputs.
 - **✨ Various UI Styling Issues**: Fixed numerous user interface styling problems for a more cohesive look.
 - **👥 Active Users Display**: Fixed active users showing active sessions instead of actual users, now reflecting accurate user activity.
-- **🌐 Community Platform Compatibility**: The Community Platform is back online and fully compatible with Open WebUI.
+- **🌐 Community Platform Compatibility**: The Community Platform is back online and fully compatible with MindLynx Agent.
 
 ### Changed
 
@@ -3661,7 +3661,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **👤 Improved Account Pending Page**: The account pending page now displays admin details by default to avoid confusion. You can disable this feature in the admin settings if needed.
 - **🌐 HTTP Proxy Support**: We have enabled the use of the 'http_proxy' environment variable in OpenAI and Ollama API calls, making it easier to configure network settings.
-- **❓ Quick Access to Documentation**: You can now easily access Open WebUI documents via a question mark button located at the bottom right corner of the screen (available on larger screens like PCs).
+- **❓ Quick Access to Documentation**: You can now easily access MindLynx Agent documents via a question mark button located at the bottom right corner of the screen (available on larger screens like PCs).
 - **🌍 Enhanced Translation**: Improvements have been made to translations.
 
 ### Fixed
@@ -3687,7 +3687,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **🌊 Mermaid Rendering Support**: We've included support for Mermaid rendering. This allows you to create beautiful diagrams and flowcharts directly within Open WebUI.
+- **🌊 Mermaid Rendering Support**: We've included support for Mermaid rendering. This allows you to create beautiful diagrams and flowcharts directly within MindLynx Agent.
 - **🔄 New Environment Variable 'RESET_CONFIG_ON_START'**: Introducing a new environment variable: 'RESET_CONFIG_ON_START'. Set this variable to reset your configuration settings upon starting the application, making it easier to revert to default settings.
 
 ### Fixed
@@ -3715,7 +3715,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **🔧 Pipelines Support**: Open WebUI now includes a plugin framework for enhanced customization and functionality (https://github.com/open-webui/pipelines). Easily add custom logic and integrate Python libraries, from AI agents to home automation APIs.
+- **🔧 Pipelines Support**: MindLynx Agent now includes a plugin framework for enhanced customization and functionality (https://github.com/open-webui/pipelines). Easily add custom logic and integrate Python libraries, from AI agents to home automation APIs.
 - **🔗 Function Calling via Pipelines**: Integrate function calling seamlessly through Pipelines.
 - **⚖️ User Rate Limiting via Pipelines**: Implement user-specific rate limits to manage API usage efficiently.
 - **📊 Usage Monitoring with Langfuse**: Track and analyze usage statistics with Langfuse integration through Pipelines.
@@ -3779,7 +3779,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **🔒 Auth Disable Option**: Introducing the ability to disable authentication. Set 'WEBUI_AUTH' to False to disable authentication. Note: Only applicable for fresh installations without existing users.
 - **📹 Enhanced YouTube RAG Pipeline**: Now supports non-English videos for an enriched experience.
 - **🔊 Specify OpenAI TTS Models**: Customize your TTS experience by specifying OpenAI TTS models.
-- **🔧 Additional Environment Variables**: Discover more environment variables in our comprehensive documentation at Open WebUI Documentation (https://docs.openwebui.com).
+- **🔧 Additional Environment Variables**: Discover more environment variables in our comprehensive documentation at MindLynx Agent Documentation (https://docs.openwebui.com).
 - **🌐 Language Support**: Arabic, Finnish, and Hindi added; Improved support for German, Vietnamese, and Chinese.
 
 ### Fixed
@@ -3916,7 +3916,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - 🗨️ **Local Chat Sharing**: Share chat links seamlessly between users.
-- 🔑 **API Key Generation Support**: Generate secret keys to leverage Open WebUI with OpenAI libraries.
+- 🔑 **API Key Generation Support**: Generate secret keys to leverage MindLynx Agent with OpenAI libraries.
 - 📄 **Chat Download as PDF**: Easily download chats in PDF format.
 - 📝 **Improved Logging**: Enhancements to logging functionality.
 - 📧 **Trusted Email Authentication**: Authenticate using a trusted email header.
@@ -4133,9 +4133,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **🔗 Built-in LiteLLM Proxy**: Now includes LiteLLM proxy within Open WebUI for enhanced functionality.
+- **🔗 Built-in LiteLLM Proxy**: Now includes LiteLLM proxy within MindLynx Agent for enhanced functionality.
   - Easily integrate existing LiteLLM configurations using `-v /path/to/config.yaml:/app/backend/data/litellm/config.yaml` flag.
-  - When utilizing Docker container to run Open WebUI, ensure connections to localhost use `host.docker.internal`.
+  - When utilizing Docker container to run MindLynx Agent, ensure connections to localhost use `host.docker.internal`.
 
 - **🖼️ Image Generation Enhancements**: Introducing Advanced Settings with Image Preview Feature.
   - Customize image generation by setting the number of steps; defaults to A1111 value.
@@ -4146,8 +4146,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Ollama is no longer required to run Open WebUI.
-- Access our comprehensive documentation at [Open WebUI Documentation](https://docs.openwebui.com/).
+- Ollama is no longer required to run MindLynx Agent.
+- Access our comprehensive documentation at [MindLynx Agent Documentation](https://docs.openwebui.com/).
 
 ## [0.1.102] - 2024-02-22
 
