@@ -76,6 +76,7 @@ open-webui serve
 | WEBUI_SECRET_KEY   | (随机生成)             | 会话加密密钥         |
 
 ### 🗂️ 项目结构
+```
 mlx-webui/
 ├── backend/              # 后端 Python 代码
 ├── src/                  # 前端 Svelte 代码
@@ -83,6 +84,7 @@ mlx-webui/
 ├── docker-compose.yaml   # Docker Compose 配置
 ├── Dockerfile            # Docker 镜像构建文件
 └── README.md             # 项目说明
+```
 
 ### 🤝 贡献指南
 欢迎提交 Issue 和 Pull Request！
