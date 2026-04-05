@@ -15,7 +15,6 @@
 
 [![Discord](https://img.shields.io/badge/Discord-MindLynx_Agent-blue?logo=discord&logoColor=white&style=flat)](https://discord.gg/5rJgQTnV4s)
 [![GitHub](https://img.shields.io/badge/GitHub-MindLynx_Agent-blue?logo=github&logoColor=white&style=flat)](https://github.com/Mindlx/mlx-webui)
-[![Documentation](https://img.shields.io/badge/docs-Available-blue?logo=readme&logoColor=white&style=flat)](https://github.com/Mindlx/mlx-webui)
 
 </div>
 
