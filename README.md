@@ -189,67 +189,6 @@ mlx-webui/
 
 ---
 
-## 🔧 高级配置
-
-### 自定义模型配置
-
-在 `docker-compose.yaml` 中添加模型配置：
-
-```yaml
-environment:
-  - OLLAMA_BASE_URL=http://ollama:11434
-  - OLLAMA_MODELS=/app/backend/data/models
-  - ENABLE_OPENAI_API=true
-  - OPENAI_API_BASE_URLS=http://ollama:11434/v1
-```
-
-### 自定义知识库
-
-```bash
-# 创建知识库
-curl -X POST http://localhost:3026/api/knowledge \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{"name": "我的知识库", "description": "知识库描述"}'
-```
-
----
-
-## 📚 开发指南
-
-### 本地开发
-
-```bash
-# 克隆代码
-git clone https://github.com/Mindlx/mlx-webui.git
-cd mlx-webui
-
-# 安装 Python 依赖
-pip install -r backend/open_webui/requirements.txt
-
-# 安装前端依赖
-cd src
-npm install
-
-# 启动开发服务器
-docker compose up backend
-```
-
-### 添加自定义插件
-
-在 `backend/open_webui/internal/` 目录下创建自定义插件：
-
-```python
-# 示例插件
-from open_webui.internal.plugins import Plugin
-
-class MyPlugin(Plugin):
-    def __init__(self):
-        super().__init__()
-        self.name = "my_plugin"
-```
-
----
-
 ## 🤝 贡献指南
 
 我们欢迎所有形式的贡献！
@@ -340,6 +279,6 @@ class MyPlugin(Plugin):
 
 <div align="center">
 
-Made with ❤️ by [MindLynx Team](https://github.com/Mindlx)
+Made with ❤️ by Mindlx
 
 </div>
