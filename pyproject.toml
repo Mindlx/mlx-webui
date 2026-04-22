@@ -1,5 +1,5 @@
 [project]
-name = "mindlx-webui"
+name = "open-webui"
 description = "Open WebUI"
 authors = [
     { name = "Timothy Jaeryang Baek", email = "tim@openwebui.com" }
@@ -172,7 +172,7 @@ all = [
 ]
 
 [project.scripts]
-mindlx-webui = "open_webui:app"
+open-webui = "open_webui:app"
 
 [build-system]
 requires = ["hatchling"]
