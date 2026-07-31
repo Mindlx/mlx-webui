@@ -1569,6 +1569,8 @@
 	"OUTPUT": "",
 	"Output format": "",
 	"Output Format": "",
+	"Local OCR": "",
+	"Local OCR processes scanned documents entirely on this server using RapidOCR (CPU, offline). No external API or network access is required.": "",
 	"Overview": "",
 	"PaddleOCR-vl": "",
 	"PaddleOCR-vl API URL required.": "",

@@ -1565,6 +1565,8 @@
 	"OUTPUT": "输出",
 	"Output format": "输出格式",
 	"Output Format": "输出格式",
+	"Local OCR": "本地OCR",
+	"Local OCR processes scanned documents entirely on this server using RapidOCR (CPU, offline). No external API or network access is required.": "本地OCR 使用 RapidOCR 在服务器上离线处理扫描文档（CPU，不联网），无需任何外部API。",
 	"Overview": "概述",
 	"PaddleOCR-vl": "PaddleOCR-vl",
 	"PaddleOCR-vl API URL required.": "PaddleOCR-vl 接口地址是必填项。",

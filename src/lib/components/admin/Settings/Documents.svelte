@@ -399,6 +399,7 @@
 									<option value="mistral_ocr">{$i18n.t('Mistral OCR')}</option>
 									<option value="paddleocr_vl">{$i18n.t('PaddleOCR-vl')}</option>
 									<option value="mineru">{$i18n.t('MinerU')}</option>
+									<option value="local_ocr">{$i18n.t('Local OCR')}</option>
 								</select>
 							</div>
 						</div>
@@ -891,6 +892,16 @@
 									placeholder={$i18n.t('pdf, docx, pptx, xlsx')}
 									bind:value={RAGConfig.MINERU_FILE_EXTENSIONS}
 								/>
+							</div>
+						{/if}
+
+						{:else if RAGConfig.CONTENT_EXTRACTION_ENGINE === 'local_ocr'}
+							<div class="flex w-full mt-2">
+								<div class="text-xs text-gray-500 dark:text-gray-400">
+									{$i18n.t(
+										'Local OCR processes scanned documents entirely on this server using RapidOCR (CPU, offline). No external API or network access is required.'
+									)}
+								</div>
 							</div>
 						{/if}
 					</div>
