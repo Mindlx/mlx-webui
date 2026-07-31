@@ -28,6 +28,7 @@ from open_webui.retrieval.loaders.external_document import ExternalDocumentLoade
 from open_webui.retrieval.loaders.mineru import MinerULoader
 from open_webui.retrieval.loaders.mistral import MistralLoader
 from open_webui.retrieval.loaders.paddleocr_vl import PaddleOCRVLLoader
+from open_webui.retrieval.loaders.local_ocr import LocalOCRLoader
 
 logging.basicConfig(stream=sys.stdout, level=GLOBAL_LOG_LEVEL)
 log = logging.getLogger(__name__)
@@ -561,6 +562,8 @@ class Loader:
                 token=self.kwargs.get('PADDLEOCR_VL_TOKEN'),
                 file_path=file_path,
             )
+        elif self.engine == 'local_ocr' and file_ext in ['pdf', 'png', 'jpg', 'jpeg', 'bmp', 'tiff', 'webp']:
+            loader = LocalOCRLoader(file_path=file_path)
         else:
             if file_ext == 'pdf':
                 loader = PyPDFLoader(
