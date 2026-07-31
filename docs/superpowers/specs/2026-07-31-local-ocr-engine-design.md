@@ -73,7 +73,7 @@ Open WebUI 的文档提取管线依赖远程/云 OCR（Mistral OCR、PaddleOCR-v
 - `__init__(file_path)`：存在性校验
 - `load()` → `list[Document]`
   - 支持 PDF + 图片（png/jpg/jpeg/bmp/tiff/webp）
-  - PDF：`fitz`（PyMuPDF）按页渲染 dpi=200 → 每页独立 Document
+  - PDF：`pypdfium2`（pypdf 捆绑依赖，已在镜像）按页渲染 scale=dpi/72 → 每页独立 Document
   - 图片：直接 OCR → 单个 Document
   - metadata：`processing_engine: 'local-ocr'`、`page`/`page_label`、`file_name`
   - 错误处理对齐 PaddleOCR-vl：异常返回 `Document(page_content=f'Error during OCR processing: {e}', metadata={'error': 'processing_failed', ...})`
