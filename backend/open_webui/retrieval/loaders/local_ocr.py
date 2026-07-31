@@ -23,13 +23,20 @@ class LocalOCRLoader:
 
     @staticmethod
     def _pages_to_images(pdf_bytes: bytes, dpi: int = 200):
-        """Render PDF pages to PNG bytes. PyMuPDF (fitz) is bundled in the image."""
-        import fitz
+        """Render PDF pages to PNG bytes. pypdfium2 (bundled with pypdf) is used."""
+        import pypdfium2 as pdfium
+        from PIL import Image
 
-        doc = fitz.open(stream=pdf_bytes, filetype='pdf')
-        for page in doc:
-            pix = page.get_pixmap(dpi=dpi)
-            yield pix.tobytes('png')
+        doc = pdfium.PdfDocument(pdf_bytes, password=None)
+        try:
+            for page in doc:
+                bitmap = page.render(scale=dpi / 72.0)
+                pil = bitmap.to_pil()
+                out = io.BytesIO()
+                pil.save(out, format='PNG')
+                yield out.getvalue()
+        finally:
+            doc.close()
 
     def load(self) -> List[Document]:
         log.info(f'Processing with local OCR: {self.file_path}')
