@@ -309,10 +309,10 @@
 					} else {
 						return e.name;
 					}
-				}, '')} • MindLynx Agent</title
+				}, '')} / MindLynx Agent</title
 		>
 	{:else}
-		<title>#{channel?.name ?? 'Channel'} • MindLynx Agent</title>
+		<title>#{channel?.name ?? 'Channel'} / MindLynx Agent</title>
 	{/if}
 </svelte:head>
 
