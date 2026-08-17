@@ -1,6 +1,6 @@
 {
-  "name": "Open WebUI",
-  "short_name": "WebUI",
+  "name": "MindLynx Agent",
+  "short_name": "MindLynx",
   "icons": [
     {
       "src": "/static/web-app-manifest-192x192.png",
