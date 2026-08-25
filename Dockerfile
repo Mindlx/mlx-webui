@@ -164,6 +164,7 @@ RUN set -e; \
     fi; \
     fi; \
     mkdir -p /app/backend/data; chown -R $UID:$GID /app/backend/data/; \
+    if [ -d "$SENTENCE_TRANSFORMERS_HOME" ]; then mkdir -p /opt/open-webui/embedding_models && cp -a "$SENTENCE_TRANSFORMERS_HOME"/. /opt/open-webui/embedding_models/; fi; \
     rm -rf /var/lib/apt/lists/*;
 
 # Install Ollama if requested
