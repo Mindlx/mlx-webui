@@ -289,3 +289,49 @@ docker run -d \
 - 自动审计工具: `~/.agents/skills/fork-merge-audit/fork_merge_audit.py`（或 `/opt/notes/fork_merge_audit.py`）
 - 历史命令笔记: `/opt/ai-workspace/docs/mindlx-docker-buildx.md`, `/opt/ai-workspace/docs/mindlx+docker.md`
 - 上游状态: 当前 fork 点 `ecd48e2f7`（v0.10.2），上游已推进 618 commits（2026-08-07 审计）
+
+---
+
+## 六、上游贡献（Issue/PR）留痕记录
+
+> 本节记录向上游 open-webui 提交 issue / PR 的历史与结论，避免重复论证、确认格式。
+
+### 6.1 提交格式核对（2026-08-25 验证）
+
+向上游 open-webui 提 **PR** 的硬性要求（不满足会被 bot 自动关闭）:
+
+| 要求 | 正确格式 |
+|:-----|:---------|
+| Target 分支 | 必须指向 `dev`（指向 `main` 会被 `owui-terminator[bot]` 立即关闭） |
+| 关联 issue/discussion | PR body 必须含 `Relates to #xxx` 链接 |
+| CLA 确认文本 | PR body 必须含 CLA checkbox 确认句（删除会被 CLA-Bot 作废） |
+| 标题前缀 | `fix:` / `feat:` / `chore:` 等 |
+
+**GitHub API 创建 PR 的 head 格式**：`head: "Mindlx:fix/<branch>"`（owner:branch，fork 名可为任意名，只要 owner 是 fork 属主）。
+
+### 6.2 提交历史
+
+| 日期 | 类型 | 内容 | 状态 |
+|:-----|:-----|:-----|:-----|
+| 2026-08-17 | PR #28682 | Ollama/OpenAI 嵌入空 Bearer 修复（target main） | 被 bot 关闭（应 target dev） |
+| 2026-08-17 | Issue #28683 | 同 bug 的 issue 报告 | open |
+| 2026-08-17 | PR #28684 | 同上修复（target dev + 关联 issue + CLA） | 被维护者 tjbck 关闭："Addressed in dev"（上游已自行采纳） |
+| 2026-08-25 | Issue #29014 | bind-mount 掩盖内置嵌入模型 | open |
+| 2026-08-25 | PR（seed-bundled-embeddings） | 播种内置模型修复 | **创建被拒**（见 6.3） |
+
+### 6.3 上游 PR 管控发现（2026-08-25）
+
+- 现象：创建 PR 到 open-webui 时，REST 返回 `404 Not Found`，`gh pr create` 返回
+  `GraphQL: Mindlx does not have the correct permissions to execute CreatePullRequest`。
+- 排查排除的因素：token 有效（能读 API、能创建 issue）、fork 关系正确
+  （parent=open-webui/open-webui）、head 格式正确（`Mindlx:fix/<branch>` 与上次成功的
+  #28684 完全一致）、分支已推送且 fork API 可见。
+- 根因：**上游维护者 tjbck 正在关闭所有外部 fork PR**（实测 2026-08-24 后创建的
+  #29005-29010 全部被 tjbck 静默关闭，无评论）。非提交格式问题，是上游当前的
+  PR 接收策略（可能处于发布 freeze / 集中处理窗口）。
+- 结论：**暂缓向 open-webui 提 PR**，等上游恢复正常接收 PR 再提交。本地功能
+  （嵌入认证修复、播种模型修复、中文默认模型）已全部在 fork 的 main 分支实现，
+  不影响使用。修复代码保留在本地分支：
+  `fix/seed-bundled-embeddings`（基于 upstream/dev）。
+- 应对：若上游长期不接收，可在 issue 评论区推进，或等上游下一版发布后核对
+  "Addressed in dev" 是否已覆盖我们的修复（防止重复实现）。
