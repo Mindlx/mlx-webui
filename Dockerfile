@@ -163,6 +163,7 @@ RUN set -e; \
     fi; \
     mkdir -p /app/backend/data; chown -R $UID:$GID /app/backend/data/; \
     if [ -d /app/backend/data/cache ]; then chmod -R a+rX /app/backend/data/cache; fi; \
+    if [ -d "$SENTENCE_TRANSFORMERS_HOME" ]; then mkdir -p /opt/open-webui/embedding_models && cp -a "$SENTENCE_TRANSFORMERS_HOME"/. /opt/open-webui/embedding_models/; fi; \
     rm -rf /var/lib/apt/lists/*;
 
 # Optional: PPTX parsing through unstructured may need spaCy's English model.

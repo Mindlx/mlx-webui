@@ -233,6 +233,7 @@ from open_webui.utils.embeddings import generate_embeddings
 from open_webui.utils.json_codec import JSONCodec
 from open_webui.utils.json_response import apply_orjson_http_json
 from open_webui.utils.logger import start_logger
+from open_webui.utils.model_seed import seed_bundled_embeddings
 from open_webui.utils.middleware import (
     background_tasks_handler,
     build_chat_response_context,
@@ -379,6 +380,10 @@ async def lifespan(app: FastAPI):
     # when the first user lands on the / route.
     log.info('Installing external dependencies of functions and tools...')
     await install_tool_and_function_dependencies()
+
+    # Seed bundled embedding models into the runtime cache so out-of-the-box
+    # local embeddings survive a fresh bind mount over /app/backend/data.
+    seed_bundled_embeddings()
 
     app.state.redis = get_redis_client(async_mode=True)
 
