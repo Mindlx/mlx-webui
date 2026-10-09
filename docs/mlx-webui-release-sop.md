@@ -29,21 +29,26 @@
 
 | 类别 | 定义 | 文件 | 合并策略 |
 |:-----|:-----|:-----|:---------|
-| **A. 品牌/文案**（真个性化） | 仅品牌名/文案/favicon | `backend/open_webui/env.py`（仅 WEBUI_NAME 部分）, `src/lib/components/workspace/Tools.svelte`, `src/lib/components/chat/Settings/About.svelte`, `src/lib/components/admin/Settings/General.svelte`, `static/favicon*.png/ico/svg`, `backend/open_webui/static/favicon*.png/ico/svg`, `src/app.html` | **保留本地**，冲突时用 `--ours`（见 1.3） |
-| **B. 本地功能**（OCR） | 本地新增的实质功能 | `backend/open_webui/retrieval/loaders/local_ocr.py`, `backend/open_webui/retrieval/loaders/rapidocr/`, `backend/tests/test_local_ocr.py`, `backend/tests/test_rapidocr_clean.py` | **本地新增文件天然保留**；与上游重叠的 `main.py`、`Documents.svelte` 需**先合入上游再增量重放** OCR 代码块（见 1.4） |
-| **C. 翻译漂移**（假定制，勿保留） | 上次 `--ours` 造成的外语翻译被英文回退污染 | `src/lib/i18n/locales/*/translation.json`（th-TH/ca-ES/de-DE 等约 40 个） | **采纳上游**（`--theirs`），上游有 25 commits 翻译更新 |
+| **A. 品牌/文案**（真个性化） | 仅品牌名/文案/favicon | `backend/open_webui/env.py`（仅 WEBUI_NAME 部分）, `src/lib/constants.ts`（仅 APP_NAME 部分）, `static/favicon*.png/ico/svg`, `backend/open_webui/static/favicon*.png/ico/svg`, `site.webmanifest`, `static/opensearch.xml`, README | **采纳上游 + 重放品牌**（⚠️ v0.11.4 起上游 i18n 化，不可无脑 `--ours`，见 **1.7**） |
+| **B. 本地功能**（OCR） | 本地新增的实质功能 | `backend/open_webui/retrieval/loaders/local_ocr.py`, `backend/open_webui/retrieval/loaders/rapidocr/`, `backend/open_webui/utils/model_seed.py`, `backend/tests/test_local_ocr.py`, `backend/tests/test_rapidocr_clean.py`, `test/test_model_seed.py` | **本地新增文件天然保留**；与上游重叠的 `main.py`、`Documents.svelte` 需**先合入上游再增量重放** OCR 代码块（见 1.4） |
+| **C. 翻译漂移**（假定制，勿保留） | 上次 `--ours` 造成的外语翻译被英文回退污染 | `src/lib/i18n/locales/*/translation.json` | **采纳上游**（`--theirs`）+ 重放本地新增 i18n key（如 `Local OCR`，见 1.4/1.7） |
 
 > **为何翻译要采纳上游**：实测 th-TH 等文件的"本地改动"是把泰语/西语/德语翻译清空成英文（英文回退），
 > 这是上次 `--ours` 覆盖造成的**数据漂移**，不是有意定制。保留它会锁死上游翻译更新。
-> 中文 `zh-CN` 若有主动翻译调整，单独保留（见 1.3）。
 
-> 完整清单查询命令：
-> `git diff ecd48e2f718220a6400ecf49eafd4867a38feb10..HEAD --name-only`
-> （`ecd48e2f7` 为当前 fork 基线 v0.10.2）
+> 完整清单查询命令（基线随版本更新）：
+> `git diff <上次合并的上游 commit>..HEAD --name-only`
+> （2026-10-09 已合并至 v0.11.4，上游 `8bd8b4fac`）
 
 ### 0.3 镜像构建参数（Dockerfile）
 
 默认构建（`main` variant，无 CUDA/Ollama）即可，`rapidocr-onnxruntime==1.4.4` 与 `onnxruntime` 已在 `backend/requirements.txt`，**本地 OCR 零额外依赖**。
+
+本地 Dockerfile 定制（相对上游）:
+- `ARG USE_EMBEDDING_MODEL=BAAI/bge-small-zh-v1.5`（中文默认嵌入模型）
+- `ENV RAG_EMBEDDING_MODEL_AUTO_UPDATE=false` + `HF_HUB_DISABLE_XET=1`
+- `ENV NODE_OPTIONS="--max-old-space-size=8192"`（**必需**：v0.11.4 前端变大，默认 node 堆内存 OOM；上游注释掉了此项）
+- staging 拷贝行：`cp -a "$SENTENCE_TRANSFORMERS_HOME"/. /opt/open-webui/embedding_models/`（配合启动播种，见 1.7）
 
 ---
 
@@ -78,21 +83,18 @@ git status | grep "both modified"
 **按 0.2 分类逐个裁决**：
 
 ```bash
-# ── A类: 品牌/文案 → 保留本地 (--ours) ──
-git checkout --ours backend/open_webui/env.py
-git checkout --ours src/lib/components/workspace/Tools.svelte
-git checkout --ours src/lib/components/chat/Settings/About.svelte
-# favicon 等静态资源若冲突
+# ── A类: 品牌 → 采纳上游 + 重放品牌 (⚠️ 勿无脑 --ours，见 1.7) ──
+git checkout --theirs backend/open_webui/env.py                # 然后改 WEBUI_NAME='MindLynx Agent'
+git checkout --theirs src/lib/constants.ts                     # 然后改 APP_NAME='MindLynx Agent'
+# 其余品牌 svelte / favicon 静态资源：直接取上游（品牌由 APP_NAME 驱动）或用 --ours 保留图标
 git checkout --ours static/favicon.png backend/open_webui/static/favicon.png
 
 # ── B类: 本地新增文件 → 天然保留, 无需处理 ──
-# local_ocr.py / rapidocr/ / tests 为本地新增, 上游无此文件, merge 自动保留
+# local_ocr.py / rapidocr/ / model_seed.py / tests 为本地新增, 上游无此文件, merge 自动保留
 
-# ── C类: 翻译 → 采纳上游 (--theirs), 仅保留 zh-CN 本地调整 ──
-git checkout --theirs src/lib/i18n/locales/th-TH/translation.json
-# ... 对每个漂移翻译文件执行, 或通配(需谨慎):
-# git checkout --theirs src/lib/i18n/locales/ca-ES/translation.json
-git checkout --ours src/lib/i18n/locales/zh-CN/translation.json   # 中文定制保留
+# ── C类: 翻译 → 采纳上游 (--theirs)，再重放本地新增 i18n key ──
+git checkout --theirs src/lib/i18n/locales/*/translation.json
+# 重放本地 OCR 的 i18n key(见 1.4): 'Local OCR' 等, 写入 en-US + zh-CN
 
 # ── 本地文档(上游可能删除) → --theirs 取回 ──
 git checkout --theirs docs/apache.md docs/CONTRIBUTING.md
@@ -152,6 +154,34 @@ git status   # 应显示 "nothing to commit, working tree clean"
 git log --oneline -5
 python3 -m pytest backend/tests/ -q   # 本地 OCR 单测回归
 ```
+
+### 1.7 品牌文件处理教训（v0.11.4 起，重要）
+
+上游从 v0.11.4 起**大规模 i18n 化 + 结构调整**，对品牌文件的合并策略必须修正：
+
+- **不要对品牌文件无脑 `--ours`**：本地品牌版本基于旧上游，会丢失上游本次新增的 **export / import / 组件结构**。
+  实证：`src/lib/constants.ts` 用 `--ours` 丢了上游新增的 `COMMUNITY_ORIGINS` export，导致 `+layout.svelte` import 失败、前端构建整体崩溃。
+- **正确做法 = 采纳上游 + 重放品牌**：
+  - `backend/open_webui/env.py` → 取上游，仅改 `WEBUI_NAME = os.getenv('WEBUI_NAME', 'MindLynx Agent')`
+  - `src/lib/constants.ts` → 取上游，仅改 `export const APP_NAME = 'MindLynx Agent';`
+  - 其余品牌 svelte（About/General/Audio/…）→ **取上游版本**（上游已 i18n 化，品牌由 `APP_NAME` 统一驱动）
+- **品牌真正承重的位置**（改这几处即可）：`constants.ts::APP_NAME`、`env.py::WEBUI_NAME`、
+  `backend/open_webui/static/site.webmanifest`、favicon/logo 静态资源、`static/opensearch.xml`、README。
+- **本地新增文件**（`local_ocr.py`、`rapidocr/`、`model_seed.py`、`Documents.svelte` 的 OCR 块）→ 天然保留或增量重放。
+
+**合并后必做前端预验证**（比全量 Docker 构建快）:
+```bash
+npm ci --force                                  # 同步上游新依赖（否则本机 build 报缺包）
+NODE_OPTIONS="--max-old-space-size=8192" npm run build   # 应 exit 0；失败先修再进 Docker 构建
+git checkout HEAD~1 -- static/pyodide/pyodide-lock.json  # 丢弃 build 副作用（black 版本漂移）
+```
+
+### 1.8 本地启动播种机制（bind-mount 修复）
+
+镜像在 `/opt/open-webui/embedding_models`（挂载区外）保留一份模型 staging，启动时
+`seed_bundled_embeddings()`（`backend/open_webui/utils/model_seed.py`，lifespan 调用）把缺失的
+`models--*` 快照拷入 `SENTENCE_TRANSFORMERS_HOME`，解决 bind mount（`-v HOST:/app/backend/data`）
+掩盖内置模型的问题。合并时确保 `main.py` 的 import + 调用、`Dockerfile` 的 staging 拷贝行都在。
 
 ---
 
@@ -280,6 +310,10 @@ docker run -d \
 | buildx builder 报错 | 构建器损坏 | `docker buildx rm mybuilder-tencent` 后重建 |
 | 镜像缺 OCR 依赖 | 构建时 requirements 未包含 | 检查 `backend/requirements.txt` 含 `rapidocr-onnxruntime` |
 | 合并后 OCR 功能丢失 | main.py/Documents.svelte 取上游后未重放 | 按 1.4 增量重放本地 OCR 代码块 |
+| 前端构建 `npm run build` 失败 `Aborted`/`SIGABRT` | node 堆内存不足（版本越大越明显） | Dockerfile 启用 `ENV NODE_OPTIONS="--max-old-space-size=8192"`（见 0.3） |
+| 前端构建 `"X" is not exported by "constants.ts"` | 对品牌文件用 `--ours` 丢失了上游新增的 export | 改为**采纳上游 + 重放品牌**（如 constants.ts 需含上游 `COMMUNITY_ORIGINS`），见 1.7 |
+| svelte 组件 import 与上游不匹配 | 部分 `--ours` 保留旧结构，与上游其他文件不兼容 | 该文件采纳上游版本（品牌由 APP_NAME/WEBUI_NAME 统一保证），见 1.7 |
+| 构建残留 `static/pyodide/pyodide-lock.json` 改动 | 本机 `npm run build` 的 pyodide:fetch 副作用（black 版本漂移） | `git checkout HEAD~1 -- static/pyodide/pyodide-lock.json` 后 amend |
 
 ---
 
@@ -288,7 +322,7 @@ docker run -d \
 - 合并方法论（通用，含 FE² 评估框架）: `/opt/notes/fork_merge_methodology.md`
 - 自动审计工具: `~/.agents/skills/fork-merge-audit/fork_merge_audit.py`（或 `/opt/notes/fork_merge_audit.py`）
 - 历史命令笔记: `/opt/ai-workspace/docs/mindlx-docker-buildx.md`, `/opt/ai-workspace/docs/mindlx+docker.md`
-- 上游状态: 当前 fork 点 `ecd48e2f7`（v0.10.2），上游已推进 618 commits（2026-08-07 审计）
+- 上游状态（2026-10-09 更新）: 已合并至 **v0.11.4**（上游 `8bd8b4fac`，自 v0.11.0 推进 898 commits）。merge commit `d2438de10`，构建修复 `fb7be4c77`，镜像 `:0.11.4` manifest `adafbad8`。
 
 ---
 
