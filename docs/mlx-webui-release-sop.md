@@ -314,6 +314,7 @@ docker run -d \
 | 前端构建 `"X" is not exported by "constants.ts"` | 对品牌文件用 `--ours` 丢失了上游新增的 export | 改为**采纳上游 + 重放品牌**（如 constants.ts 需含上游 `COMMUNITY_ORIGINS`），见 1.7 |
 | svelte 组件 import 与上游不匹配 | 部分 `--ours` 保留旧结构，与上游其他文件不兼容 | 该文件采纳上游版本（品牌由 APP_NAME/WEBUI_NAME 统一保证），见 1.7 |
 | 构建残留 `static/pyodide/pyodide-lock.json` 改动 | 本机 `npm run build` 的 pyodide:fetch 副作用（black 版本漂移） | `git checkout HEAD~1 -- static/pyodide/pyodide-lock.json` 后 amend |
+| 更新后 VPS 用户/聊天记录"丢失" | compose 用 `${HOME}/mindlx/...`，**换用户执行**（如 root）时 `${HOME}` 解析成错误目录 → 挂载空库 | 硬编码绝对路径；确认 `docker inspect <容器>` 的 `.Mounts` 指向真实数据目录（见七） |
 
 ---
 
@@ -369,3 +370,59 @@ docker run -d \
   `fix/seed-bundled-embeddings`（基于 upstream/dev）。
 - 应对：若上游长期不接收，可在 issue 评论区推进，或等上游下一版发布后核对
   "Addressed in dev" 是否已覆盖我们的修复（防止重复实现）。
+
+---
+
+## 七、VPS 远程部署与更新
+
+### 7.1 连接与部署结构
+
+- SSH: `ssh mindlynx-vps`（key `~/.ssh/id_ed25519_mindlynx`，登录用户 `root`）
+- compose 项目目录: `/home/bluekuma/mindlx/`（`docker-compose.yaml` + `Dockerfile` + `rapidocr/` + `patches/`）
+- 容器名: `mindlx`，端口 `3001:8080`
+- **挂载（⚠️ 关键）**: `/home/bluekuma/mindlx/data:/app/backend/data`（**用户数据** / webui.db）、
+  `/home/bluekuma/mindlx/static:/app/backend/open_webui/static`（图标，**掩盖镜像内图标**）
+- 环境变量: `HF_ENDPOINT=hf-mirror.com`, `RAG_EMBEDDING_MODEL_AUTO_UPDATE=false`, `HF_HUB_DISABLE_XET=1`
+- VPS `Dockerfile`: `FROM ccr.ccs.tencentyun.com/mindlx/mlx-webui:<固定tag>` + `COPY rapidocr/rapidocr.py → site-packages`（**必须固定 tag**，用 `latest` + `build: .` 会自我污染）
+
+### 7.2 ⚠️ 挂载路径陷阱（2026-10-10 事故教训）
+
+`docker-compose.yaml` 原用 `${HOME}/mindlx/{data,static}`。`${HOME}` 取决于**执行用户**：
+- 以 `bluekuma` 执行 → `/home/bluekuma/mindlx/...`（真实数据）
+- 以 `root` 执行 → `/root/mindlx/...`（空目录！）
+
+**事故**：以 root 执行 `docker compose up` 后，容器挂载切到 `/root/mindlx/data`（空库），
+表现为"用户和聊天记录全没了"——**数据其实一直在 `/home/bluekuma/mindlx/data`**。
+
+**禁止**：依赖 `${HOME}` 的 compose 挂载 + 换用户执行（尤其 SSH 默认 root）。
+**要求**：compose 用**硬编码绝对路径**（已修复为 `/home/bluekuma/mindlx/{data,static}`）。
+
+### 7.3 更新流程（安全版）
+
+```bash
+# 0. 前置：确认真实数据目录（勿被空目录迷惑）
+ssh mindlynx-vps "docker inspect mindlx --format '{{range .Mounts}}{{.Source}} -> {{.Destination}}{{println}}{{end}}'"
+ssh mindlynx-vps "python3 -c \"import sqlite3; c=sqlite3.connect('/home/bluekuma/mindlx/data/webui.db'); print('users:', c.execute('SELECT COUNT(*) FROM user').fetchone()[0])\""
+
+# 1. 备份当前镜像
+ssh mindlynx-vps "docker tag ccr.ccs.tencentyun.com/mindlx/mlx-webui:latest ccr.ccs.tencentyun.com/mindlx/mlx-webui:backup-$(date +%Y%m%d-%H%M%S)"
+
+# 2. 拉取新镜像
+ssh mindlynx-vps "docker pull ccr.ccs.tencentyun.com/mindlx/mlx-webui:<tag>"
+
+# 3. 重建（FROM 固定 tag）
+ssh mindlynx-vps "cd /home/bluekuma/mindlx && docker compose up -d --build"
+
+# 4. 验证：挂载正确 + 用户数据在 + 健康
+ssh mindlynx-vps "docker inspect mindlx --format '{{range .Mounts}}{{.Source}}{{println}}{{end}}'; docker ps --filter name=mindlx --format '{{.Status}}'"
+```
+
+> ⚠️ 每次更新后**必查**：① `docker inspect .Mounts` 指向 `/home/bluekuma/mindlx/...`（非 `/root`）
+> ② 用户数据仍在 ③ 容器 healthy。若挂载错，立即停容器 + 修 compose 路径 + 重启。
+
+### 7.4 VPS 本地定制（相对镜像）
+
+- `Dockerfile`: `FROM ...:<固定tag>` + COPY `rapidocr/rapidocr.py`
+- `rapidocr/rapidocr.py`: 自定义 OCR 兼容模块
+- `patches/`: 旧 patch 目录（`retrieval_utils.py` 已移除——依赖 v0.11.4 已删除的 langchain_community，会 crash）
+
