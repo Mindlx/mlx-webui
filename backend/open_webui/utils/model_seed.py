@@ -14,6 +14,12 @@ copies them to a staging directory *outside* the mounted tree
 startup this module seeds them into ``SENTENCE_TRANSFORMERS_HOME`` if (and
 only if) that target is missing them, so out-of-the-box local embeddings work
 on a standard deployment.
+
+Seeding is crash-safe: each model is copied to a temporary sibling directory
+and atomically renamed into place, so an interrupted seed never leaves a
+partial snapshot visible. A pre-existing but incomplete snapshot (e.g. left by
+an older build or an interrupted copy) is detected and re-seeded instead of
+being skipped.
 """
 
 import logging
@@ -27,12 +33,44 @@ log = logging.getLogger(__name__)
 # non-Docker/local installs.
 BUNDLED_MODELS_DIR = os.getenv('BUNDLED_MODELS_DIR', '/opt/open-webui/embedding_models')
 
+# Filenames whose presence inside a snapshot indicates the weights were fully
+# copied. A seed that was killed mid-copy leaves ``snapshots/<commit>/`` present
+# but without any of these, which must not be treated as "already seeded".
+_WEIGHT_FILES = ('model.safetensors', 'pytorch_model.bin', 'model.bin', 'tf_model.h5')
+
+
+def _is_snapshot_complete(model_dir: str) -> bool:
+    """Return True if a HuggingFace cache dir holds at least one real snapshot.
+
+    A cache dir looks like ``<name>/snapshots/<commit>/<files>``. We require at
+    least one commit directory that actually contains a weight file, so a
+    directory left half-copied by an interrupted seed is treated as incomplete.
+    """
+    snapshots = os.path.join(model_dir, 'snapshots')
+    if not os.path.isdir(snapshots):
+        return False
+    for commit in os.listdir(snapshots):
+        commit_dir = os.path.join(snapshots, commit)
+        if not os.path.isdir(commit_dir):
+            continue
+        try:
+            files = os.listdir(commit_dir)
+        except OSError:
+            continue
+        if any(weight in files for weight in _WEIGHT_FILES):
+            return True
+    return False
+
 
 def seed_bundled_embeddings(target_dir: str | None = None) -> list[str]:
     """Copy bundled model snapshots from the image staging dir into ``target_dir``.
 
-    Idempotent: entries already present in the target are left untouched, and
-    a missing staging dir (e.g. slim builds, source installs) is a no-op.
+    Idempotent and crash-safe:
+    - models already present and complete in the target are left untouched;
+    - a present but incomplete model dir is removed and re-seeded;
+    - each copy goes to ``<dst>.seed-tmp`` first and is then atomically renamed,
+      so an interrupted run never exposes a partial snapshot;
+    - a missing staging dir (slim builds, source installs) is a no-op.
 
     Returns the list of snapshot names that were newly seeded.
     """
@@ -56,13 +94,24 @@ def seed_bundled_embeddings(target_dir: str | None = None) -> list[str]:
             continue
         dst = os.path.join(target_dir, entry)
         if os.path.exists(dst):
-            log.debug('Bundled model %s already present; skipping', entry)
-            continue
+            if _is_snapshot_complete(dst):
+                log.debug('Bundled model %s already present and complete; skipping', entry)
+                continue
+            log.warning('Bundled model %s present but incomplete; re-seeding', entry)
+            shutil.rmtree(dst, ignore_errors=True)
+
+        tmp = dst + '.seed-tmp'
         try:
             os.makedirs(target_dir, exist_ok=True)
-            shutil.copytree(src, dst)
+            shutil.rmtree(tmp, ignore_errors=True)
+            # Preserve the HuggingFace cache layout (blobs + snapshot symlinks)
+            # so loading resolves through the same paths as a native download.
+            shutil.copytree(src, tmp, symlinks=True)
+            # Atomic swap: only a fully-copied directory ever appears as `dst`.
+            os.replace(tmp, dst)
             seeded.append(entry)
             log.info('Seeded bundled embedding model: %s', entry)
         except OSError as e:
             log.warning('Failed to seed bundled embedding model %s: %s', entry, e)
+            shutil.rmtree(tmp, ignore_errors=True)
     return seeded

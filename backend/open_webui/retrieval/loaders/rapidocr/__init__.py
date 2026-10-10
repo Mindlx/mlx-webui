@@ -25,7 +25,11 @@ class RapidOCR:
             import cv2
 
             if isinstance(img, (str, bytes)):
-                data = img if isinstance(img, bytes) else open(img, "rb").read()
+                if isinstance(img, bytes):
+                    data = img
+                else:
+                    with open(img, 'rb') as f:
+                        data = f.read()
                 img = Image.open(io.BytesIO(data)).convert("RGB")
             elif hasattr(img, "convert"):
                 img = img.convert("RGB")
