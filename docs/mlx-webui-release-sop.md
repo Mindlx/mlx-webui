@@ -426,3 +426,62 @@ ssh mindlynx-vps "docker inspect mindlx --format '{{range .Mounts}}{{.Source}}{{
 - `rapidocr/rapidocr.py`: 自定义 OCR 兼容模块
 - `patches/`: 旧 patch 目录（`retrieval_utils.py` 已移除——依赖 v0.11.4 已删除的 langchain_community，会 crash）
 
+---
+
+## 八、品牌图标规范（尺寸 / 留白）
+
+> ⚠️ 图标留白**必须按用途对照国际标准**，不能"对比旧图"或一刀切。
+> 2026-10-11 教训：曾统一用 92%，但 `site.webmanifest` 的图标是 `purpose: maskable`，
+> 92% **超出 safe zone**（Android 自适应图标裁剪会切掉边缘）。
+
+### 8.1 国际标准（依据 W3C Web App Manifest / web.dev maskable-icon）
+
+- **maskable 图标**：关键内容须在中心**圆（半径 = 宽度 40% ⇒ 直径 80%）的 safe zone** 内；
+  外圈 10% 可能被平台图标遮罩裁掉。→ **内容占比 80%**（留白 10%/边）。
+- **`purpose: "any"` 图标**（favicon 等）：web.dev 明确 "transparent regions and **no extra
+  padding**"，即贴近填满。→ **内容占比 ~90%**（仅小透明边，避免小尺寸显小）。
+- **apple-touch-icon**：Apple HIG 倾向填满（iOS 自加圆角）。→ ~90%。
+
+### 8.2 本项目图标清单
+
+| 文件 | 用途 | 尺寸 | purpose | 内容占比 |
+|:-----|:-----|:-----|:--------|:---------|
+| `favicon.png` | 浏览器标签 | 180 | any | 90% |
+| `favicon-96x96.png` | Google 搜索 | 96 | any | 90% |
+| `favicon.ico` | 旧浏览器 | 16/32/48/64 | any | 90% |
+| `favicon.svg` | 现代浏览器（base64 包壳）| 180 | any | 90% |
+| `apple-touch-icon.png` | iOS 主屏 | 180 | — | 90% |
+| `logo.png` | 站点 logo | 180 | — | 90% |
+| `splash.png` / `splash-dark.png` | PWA 启动图 | 180 | — | 90% |
+| `web-app-manifest-192x192.png` | PWA | 192 | **maskable** | **80%** |
+| `web-app-manifest-512x512.png` | PWA | 512 | **maskable** | **80%** |
+
+### 8.3 源位置与传递链（改哪里）
+
+```
+static/static/*  ──SvelteKit build──▶ build/static/* ──config.py 启动拷贝──▶ backend/open_webui/static/*
+（源，改这里）                        （产物，勿手改）                    （运行时；被 VPS static 挂载掩盖）
+```
+- **改源**：`static/static/`（10 个图标）+ `static/favicon.png` + `backend/open_webui/static/`（同步）
+- 生成方法：`content = src.crop(src.getbbox())`（**先裁掉源图自带留白**）→ 按用途 fill 放到正方形画布
+  - maskable: `fill=0.80`；其余: `fill=0.90`
+- ⚠️ 源图 `mlx-logo.png` 自带大留白（内容仅占 66%）——**必须先 crop 到 bbox**，否则留白被带入
+
+### 8.4 图标更新流程（轻量图标层，不重编前端）
+
+1. 备份：`tar czf ~/mlx-icon-backup-<ts>.tar.gz static/static/*.png static/static/favicon.{ico,svg} ...`
+2. 生成（按 8.2/8.3 的分用途 fill）
+3. 替换 `static/static/` + `static/favicon.png` + `backend/open_webui/static/`
+4. 提交 + 推送
+5. 构建**图标层**（快，~6s）：
+   ```
+   # Dockerfile.icons: FROM <版本> ; COPY 10个图标 /app/build/static/
+   docker buildx build --builder mybuilder-tencent --platform linux/amd64,linux/arm64 \
+     -t ccr.ccs.tencentyun.com/mindlx/mlx-webui:<tag> -t ...:latest --push <ctx>
+   ```
+   > 图标是前端静态资源 → 图标层足够；**后端代码改动必须全量重建**（见七）
+6. 更新 VPS：`docker pull` + `docker compose up -d --build`（VPS **挂载了 static**，靠容器启动时
+   config.py 从镜像 build/static 覆盖挂载目录；或直接 scp 新图标到 `/home/bluekuma/mindlx/static/`）
+7. 验证：`docker exec mindlx python3 -c "from PIL import Image; ..."` 查内容占比（maskable 80% / 其余 90%）
+
+
